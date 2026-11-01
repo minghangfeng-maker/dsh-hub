@@ -1,0 +1,50 @@
+# dsh-claude-pilot —— 「Claude Code」对话模式
+#
+# 新建对话时在预设选择器里选 "Claude Code"：这个对话由本机 Claude Code（Agent SDK）驱动，
+# DSH 只负责界面与记录。Claude 可以用 mcp__dsh__task_* 在 DSH 里派后台任务，
+# 任务是这个对话下的真 DSH 子会话（DSH 自己的模型在跑），右侧栏实时显示。
+#
+# 只改 runtime/*.js：存盘即生效。改本补丁或 releases/index.r1.js：重装 bundle + 重启 DSH。
+- insert:
+    - id: preset-claude-pilot
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: claude-pilot
+        name: Claude Code
+        description: 由本机 Claude Code 驱动这个对话；它可以派 DSH 任务并在右侧栏实时显示
+        order: 0
+        plugins:
+          # 模式会话里 DSH 自己的模型不会被调用；不挂 DSH 工具是故意的（工具由 Claude Code 执行）
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              prefix: >-
+                This Session runs in Claude Code mode: the Claude Code CLI performs every turn with
+                its own tools and permissions, and the Harness UI only records and renders the
+                conversation.
+              complete: true
+              includeRuntimeContext: false
+          # Claude Code 的斜杠命令（/compact、/context、/model、skills…），只对本模式的对话生效
+          - id: claude-pilot-commands
+            name: '@local/dsh-claude-pilot/commands'
+
+    - id: claude-pilot
+      # ⚠ 必须写包名（插件管理器要求补丁行 name === 运行时 moduleName）
+      name: '@local/dsh-claude-pilot'
+      config:
+        # Claude Code 程序：留空 = CLAUDE_CODE_BIN → ~/.local/bin/claude → /usr/local/bin → /usr/bin，
+        # 都没有就用 Agent SDK 自带的那份（装插件时 pnpm 按平台拉下来的）；写 bundled 则强制用自带的
+        # claudePath: /path/to/claude
+        # 会话没有工作目录时用哪个目录；留空 = 运行 DSH 的用户的 home
+        # fallbackCwd: /path/to/workdir
+        # Claude Code 权限模式：bypassPermissions | acceptEdits | default | plan
+        permissionMode: bypassPermissions
+        # 默认模型 / 思考程度（UI 里选过就以 UI 为准）；留空 = Claude Code 默认
+        defaultModel: ''
+        defaultEffort: ''
+        # 派出的 DSH 任务用哪个模型；不写 = DSH 当前默认模型。DSH 默认模型是 claude-code 时必须写，例如：
+        # taskModel: { provider: deepseek, model: deepseek-chat, reasoningEffort: high }
+        # 派出的 DSH 任务用哪个预设（决定它有哪些工具）
+        taskPreset: standard
+        maxToolResultChars: 30000
+        verbose: false

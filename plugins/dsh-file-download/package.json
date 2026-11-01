@@ -1,0 +1,40 @@
+{
+  "name": "@local/dsh-file-download",
+  "version": "1.2.0",
+  "private": true,
+  "description": "为预览中的工作区文件提供「下载到本地」按钮：Host 流式下载路由 + 浏览器原生下载（支持大文件、进度、暂停/断点续传）",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "test": "node test/route.test.mjs"
+  },
+  "engines": {
+    "node": ">=20.11.0",
+    "dsh": ">=0.2.0-rc.2 <0.3.0"
+  },
+  "license": "Apache-2.0",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-primitives",
+        "@deepseek-ai/dsh-client-ui-sidebar-documentpreview"
+      ]
+    }
+  }
+}

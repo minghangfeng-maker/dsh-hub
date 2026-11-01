@@ -1,0 +1,48 @@
+{
+  "note": "真实 web_search（本机假上游导致 401）的 tool/call 与 tool/result：isError=true + error{name,code}。",
+  "toolCall": {
+    "type": "tool/call",
+    "seq": 34,
+    "time": 1792927774045,
+    "data": {
+      "turn": 2,
+      "step": 1,
+      "callId": "wp40c-search-1792927774039",
+      "name": "web_search",
+      "arguments": "{\"queries\":[\"DSH Hub 手机端 v2 契约\",\"DeepSeek Harness 0.2.1-rc.2\"]}"
+    }
+  },
+  "toolResult": {
+    "type": "tool/result",
+    "seq": 37,
+    "time": 1792927774464,
+    "data": {
+      "turn": 2,
+      "step": 1,
+      "message": {
+        "role": "tool",
+        "source": {
+          "kind": "tool",
+          "callId": "wp40c-search-1792927774039"
+        },
+        "toolCallId": "wp40c-search-1792927774039",
+        "content": [
+          {
+            "type": "text",
+            "text": "Error: DeepSeek API error (HTTP 401): Authentication Fails, Your api key: ****-key is invalid (request_id: 532d6bb0-d8f6-482f-9c8b-b8fbced6e2b3)\n\nThe web request used endpoint \"https://api.deepseek.com/anthropic/v1/messages\". Search endpoint configuration is separate from chat. If that endpoint is not intended, guide the user to Plugins > Built-in plugin settings > Web search, where they can chang…[clipped 200 chars]"
+          }
+        ],
+        "isError": true,
+        "id": "20d21322-f6a3-463f-8512-c0989c3788ae"
+      },
+      "error": {
+        "name": "WebError",
+        "code": "WEB_PROVIDER_ERROR"
+      }
+    },
+    "sourceEventSeqs": [
+      34
+    ],
+    "surfaceOp": "append"
+  }
+}

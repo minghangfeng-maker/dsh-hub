@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  自适应图标的底板（品牌「星座鲸」的夜空：左上 #080E3D → 右下 #2A1460，与 icon-1024 母版同色）。
+  用矢量 drawable 而不是位图：任何密度都不糊，也不占 APK 体积。
+  前景是 mipmap-<density>/ic_launcher_foreground.png（透明底鲸鱼，已在 66% 安全区内）。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="0"
+                android:startY="0"
+                android:endX="108"
+                android:endY="108">
+                <item
+                    android:color="#080E3D"
+                    android:offset="0.0" />
+                <item
+                    android:color="#2A1460"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

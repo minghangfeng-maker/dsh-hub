@@ -1,0 +1,29 @@
+{
+  "name": "@dsh-hub/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Capacitor 8 Android 壳：tech.dshhub.app / DSH Hub",
+  "scripts": {
+    "sync": "cap sync android",
+    "copy": "cap copy android",
+    "open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/keyboard": "^8.0.6",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/camera": "^8.2.6",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/share": "^8.0.3",
+    "@aparajita/capacitor-secure-storage": "^8.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3"
+  },
+  "license": "Apache-2.0"
+}

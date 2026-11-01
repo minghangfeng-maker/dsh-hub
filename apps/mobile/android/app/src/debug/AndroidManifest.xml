@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  仅 debug 构建放行明文 HTTP。
+  原因：A1 的 e2e / 本机 mock Hub 跑在 http://127.0.0.1:524x，
+  App 页面是 https://localhost，不清明文会被 WebView 的 mixed-content 拦掉。
+  release 构建没有这个 overlay，保持系统默认（禁止明文）。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:usesCleartextTraffic="true"
+        tools:replace="android:usesCleartextTraffic" />
+</manifest>

@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "id": "cloud:self",
+      "kind": "cloud",
+      "name": "云实例",
+      "status": "running",
+      "connectable": true,
+      "capabilities": {
+        "sessions": true, "history": true, "send": true, "stop": true,
+        "stream": true, "questions": true, "approvals": false, "create": true
+      }
+    },
+    {
+      "id": "dv_0123456789abcdef0123456789abcdef",
+      "kind": "desktop",
+      "name": "家里的 Windows",
+      "status": "host-running",
+      "presence": "online",
+      "connectable": false,
+      "reason": "desktop-remote-off",
+      "clientVersion": "0.9.3"
+    },
+    {
+      "id": "dv_fedcba9876543210fedcba9876543210",
+      "kind": "desktop",
+      "name": "办公室台式机",
+      "status": "host-stopped",
+      "presence": "offline",
+      "connectable": false,
+      "reason": "desktop-host-stopped"
+    }
+  ],
+  "limits": { "channelsPerUser": 4, "channelsPerNode": 2, "idleMs": 600000, "maxFrameBytes": 262144 }
+}

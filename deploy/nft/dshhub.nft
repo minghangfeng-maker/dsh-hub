@@ -1,0 +1,29 @@
+# DSH Hub 出网规则（02 §4）：只匹配用户网段，独立 inet 表，priority -10 高过 Docker 自己的规则。
+# 由 dshhub-egress.service 在 docker.service 之后加载（deploy/nft/install.sh）。
+#
+# 与 02 §4 的**唯一**差异：原文的链名是 `fwd`，而 `fwd` 是 nft 保留字（fwd 语句），
+# `nft -c -f` 会报 “syntax error, unexpected '$'”。这里只把链名改成 `fwd4`，规则内容逐条一致
+# （apps/api/test/deploy.scripts.test.ts 会把本文件与 02 §4 的代码块逐行比对，只容忍这一处改名）。
+define USERS = 10.213.0.0/16     # 所有 Hub 管理的网络：默认用户网络落在 10.213.0.0/20，安全闸门测试网络用 10.213.16.0/24
+table inet dshhub {
+  set blocked4 { type ipv4_addr; flags interval;
+    elements = { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, 100.64.0.0/10, 127.0.0.0/8, 224.0.0.0/4, 240.0.0.0/4 } }
+
+  # 容器 → 外部（经转发）：禁家庭局域网、Windows 主机、保留段；同时禁容器互访（br_netfilter 下桥接流量也走 forward）
+  chain fwd4 {
+    type filter hook forward priority -10; policy accept;
+    ip saddr $USERS ct state established,related accept
+    ip saddr $USERS ip daddr @blocked4 drop
+    ip6 saddr fd00::/8 drop                      # 用户网络不启用 IPv6；防御性丢弃
+  }
+  # 容器 → 宿主本身（网关 IP 或任意本机地址）：一律禁止。Docker 的内置 DNS（127.0.0.11）在容器自己的网络命名空间里，
+  # 由 dockerd 转发到宿主 resolv.conf 的 8.8.8.8/8.8.4.4（公网地址，不受 blocked4 影响）；53 端口的放行只为 B 计划的 podman（aardvark-dns 在网关上）
+  chain in {
+    type filter hook input priority -10; policy accept;
+    ip saddr $USERS ct state established,related accept   # Hub → 容器 连接的回包
+    ip saddr $USERS udp dport 53 accept                   # 仅 B 计划的 podman 需要（aardvark-dns 在网关上）；本机无 53 端口服务
+    ip saddr $USERS tcp dport 53 accept
+    ip saddr 10.213.0.0/20 ip daddr 10.213.0.1 tcp dport 7710 accept   # 唯一例外：用户网络 → Hub 中转站内部监听器（12 §3）
+    ip saddr $USERS drop
+  }
+}

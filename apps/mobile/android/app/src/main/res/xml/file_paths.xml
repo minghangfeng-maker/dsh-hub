@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="my_images" path="." />
+    <cache-path name="my_cache_images" path="." />
+    <!-- 0.3.1 更新包：Cache/updates/dsh-hub-app-<版本>.apk（上面的 "." 已经覆盖，这条写明意图） -->
+    <cache-path name="updates" path="updates" />
+</paths>

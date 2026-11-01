@@ -1,0 +1,41 @@
+{
+  "name": "@local/dsh-linear-mcp",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "description": "Linear 接入：在「设置 → Linear」里填 Linear API key，通过 Linear 官方 MCP server 把 mcp__linear__* 工具挂进当前会话",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "icon": "./icon.svg",
+  "files": [
+    "index.js",
+    "impl.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "icon.svg",
+    "locale/*.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "meta": {
+    "title": "Linear",
+    "description": "用 Linear 官方 MCP server 操作 issue / project / comment：在设置页填 Linear API key 即可"
+  }
+}

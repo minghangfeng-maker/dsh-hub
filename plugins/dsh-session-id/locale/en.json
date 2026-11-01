@@ -1,0 +1,4 @@
+{
+  "title": "Session ID",
+  "description": "Generates one stable opencode-style session id per DSH conversation and sends it as request headers on every model request, regardless of model or upstream."
+}

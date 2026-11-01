@@ -1,0 +1,7 @@
+{
+  "v": 1, "type": "approval", "sessionId": "s_01J",
+  "approval": {
+    "sessionId": "s_01J", "approvalId": "ap_01", "callId": "call_t9", "tool": "bash",
+    "reason": "需要写文件", "answerable": false, "actions": ["cancel"], "state": "open"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@dsh-hub/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH Hub 前后端共享契约：zod schema、DTO 类型、错误码、常量",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  },
+  "license": "Apache-2.0"
+}

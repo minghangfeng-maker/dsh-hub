@@ -1,0 +1,26 @@
+# 把一个本地 bundle 插进当前 profile。
+# id 是 Loader 行标识（唯一即可），name 必须等于 package.json 的包名。
+- insert:
+    - id: file-download
+      name: '@local/dsh-file-download'
+
+# ---- 旧客户端回退用：放宽「整份文件读回」的上限（可选）----
+# 1.2.0 起，下载按钮默认走本 bundle 的 Host 流式路由
+# （GET/HEAD /api/workspace.download，带 Range 断点续传），不再把整份文件读进内存，
+# 所以大文件下载与这里的 maxFileBytes 无关。
+#
+# 只有一种情况还会用到 workspaceFiles.readBytes：Host 是旧版（没有流式路由）、
+# 而浏览器已经加载了 1.2.0 的客户端代码，按钮会自动回退到「整份读取 + Blob」。
+# 回退路径受下面的 cap 限制，Host 默认只有 32 MB。
+#
+# 为什么默认不写死 1 GB：readBytes 会把整份文件读进 Host 内存后再走 RPC 送给浏览器，
+# 这是一条单请求即可吃掉整机内存的路径；在多人共用的 HUB 上等于给每个用户一个
+# 内存放大器。需要兼容超大文件的旧 Host 时，把下面四行取消注释即可
+# （补丁对匹配到的 config 是整块替换而非深合并，所以四项必须写全）：
+#
+# - id: workspace-files
+#   config:
+#     maxFileBytes: 1073741824
+#     maxBytes: 2097152
+#     maxLines: 5000
+#     maxEntries: 2000

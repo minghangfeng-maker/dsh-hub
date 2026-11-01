@@ -1,0 +1,48 @@
+{
+  "note": "真实 bash `seq 1 20000` 回合：tool/call 与 tool/result。正文截到 400 字符；textChars 是原文长度（含 DSH spill 的省略提示）。",
+  "toolCall": {
+    "type": "tool/call",
+    "seq": 51,
+    "time": 1792927774949,
+    "data": {
+      "turn": 3,
+      "step": 1,
+      "callId": "wp40c-big-1792927774946",
+      "name": "bash",
+      "arguments": "{\"description\":\"产生一大段输出（测截断）\",\"command\":\"seq 1 20000\"}"
+    }
+  },
+  "toolResult": {
+    "type": "tool/result",
+    "seq": 54,
+    "time": 1792927774969,
+    "data": {
+      "turn": 3,
+      "step": 1,
+      "message": {
+        "role": "tool",
+        "source": {
+          "kind": "tool",
+          "callId": "wp40c-big-1792927774946"
+        },
+        "toolCallId": "wp40c-big-1792927774946",
+        "content": [
+          {
+            "type": "text",
+            "text": "201\n9202\n9203\n9204\n9205\n9206\n9207\n9208\n9209\n9210\n9211\n9212\n9213\n9214\n9215\n9216\n9217\n9218\n9219\n9220\n9221\n9222\n9223\n9224\n9225\n9226\n9227\n9228\n9229\n9230\n9231\n9232\n9233\n9234\n9235\n9236\n9237\n9238\n9239\n9240\n9241\n9242\n9243\n9244\n9245\n9246\n9247\n9248\n9249\n9250\n9251\n9252\n9253\n9254\n9255\n9256\n9257\n9258\n9259\n9260\n9261\n9262\n9263\n9264\n9265\n9266\n9267\n9268\n9269\n9270\n9271\n9272\n9273\n9274\n9275\n9276\n9277\n9278\n9279\n9280\n9…[clipped 49531 chars]"
+          }
+        ],
+        "isError": false,
+        "id": "0c3eace7-f862-48c8-8c5f-e7447f627174"
+      },
+      "meta": {
+        "cwd": "/workspace"
+      }
+    },
+    "sourceEventSeqs": [
+      51
+    ],
+    "surfaceOp": "append"
+  },
+  "textChars": 49931
+}

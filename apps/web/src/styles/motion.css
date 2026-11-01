@@ -1,0 +1,406 @@
+/**
+ * 动效（07 §2.5 逐条实现）。
+ *
+ * 约定：组件不写死动画参数，统一用这里的 class + 令牌；
+ * `prefers-reduced-motion: reduce` 时**关闭水波、涟漪、呼吸、计数、描边、流光**，
+ * 只保留 ≤120ms 的淡入（H2 验收项），并且所有动画结束态必须是「正常形态」
+ * （用 `forwards` / 动画本身回到原位），不能依赖动画播放完成。
+ */
+
+:root {
+  /* 动效时长令牌（tokens.css 已有 --duration-press/base/route 与 --ease-out-soft） */
+  --duration-card: var(--duration-base);
+  --duration-count: 600ms;
+  --duration-check: 400ms;
+  --duration-skeleton: 1400ms;
+  --duration-breathe: 2400ms;
+  /* 水波纹：波浪层平移 22–34s（三层视差），涟漪环 7s 一轮，光晕漂移 26s */
+  --duration-wave-front: 22s;
+  --duration-wave-mid: 28s;
+  --duration-wave-back: 34s;
+  --duration-ripple: 7s;
+  --duration-drift-slow: 26s;
+  --stagger-step: 30ms;
+}
+
+/* ── 路由切换：淡入 + 上移 8px，220ms（App.vue 用 <Transition name="route-fade" mode="out-in">） ── */
+
+.route-fade-enter-active,
+.route-fade-leave-active {
+  transition:
+    opacity var(--duration-route) var(--ease-out-soft),
+    transform var(--duration-route) var(--ease-out-soft);
+}
+
+.route-fade-enter-from,
+.route-fade-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ── 通用：元素入场 / 卡片悬浮 / 按钮按下 ── */
+
+.fade-in-up {
+  animation: fade-in-up var(--duration-route) var(--ease-out-soft) both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 卡片悬浮上浮 2px + 阴影加深（180ms）；按下的 scale(.98)（120ms） */
+.lift {
+  transition:
+    transform var(--duration-card) var(--ease-out-soft),
+    box-shadow var(--duration-card) var(--ease-out-soft);
+}
+
+.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.press {
+  transition: transform var(--duration-press) var(--ease-out-soft);
+}
+
+.press:active {
+  transform: scale(0.98);
+}
+
+/* 列表逐项淡入，间隔 30ms（最多前 10 项）：模板里传 `:style="{ '--stagger': i }"` */
+.stagger-item {
+  animation: fade-in-up var(--duration-route) var(--ease-out-soft) both;
+  animation-delay: calc(min(var(--stagger, 0), 9) * var(--stagger-step));
+}
+
+/* TransitionGroup 用（07 §2.5 列表进入） */
+.list-enter-active {
+  transition:
+    opacity var(--duration-route) var(--ease-out-soft),
+    transform var(--duration-route) var(--ease-out-soft);
+  transition-delay: calc(min(var(--stagger, 0), 9) * var(--stagger-step));
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* ── 水波纹背景（<WaterBackdrop>：登录页 / 工作台 / 唤醒页）──
+   三层波浪横向平移（视差）+ 同心涟漪环向外扩散 + 两团柔光缓慢漂移。
+   纯 CSS：没有 JS 也能动；指针交互的画布涟漪见 composables/useWaterRipples.ts。 */
+
+.water-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  will-change: transform;
+  animation: glow-float var(--duration-drift-slow) ease-in-out infinite alternate;
+}
+
+.water-glow--primary {
+  background: color-mix(in srgb, var(--c-primary) 38%, transparent);
+}
+
+.water-glow--sky {
+  background: color-mix(in srgb, var(--c-sky) 44%, transparent);
+  animation-delay: -9s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes glow-float {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(48px, 36px, 0) scale(1.14);
+  }
+}
+
+/* 波浪：外层上下轻晃，内层 svg 宽 200%、恰含两个周期，平移 -50% 即无缝循环 */
+.water-wave {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: var(--wave-h, 180px);
+  pointer-events: none;
+  animation: wave-bob var(--wave-bob, 7s) ease-in-out infinite alternate;
+}
+
+.water-wave__svg {
+  display: block;
+  width: 200%;
+  max-width: none;
+  height: 100%;
+  fill: var(--wave-fill, var(--c-wave-1));
+  will-change: transform;
+  animation: wave-slide var(--wave-speed, var(--duration-wave-mid)) linear infinite;
+  animation-direction: var(--wave-dir, normal);
+}
+
+.water-wave--back {
+  --wave-h: 220px;
+  --wave-fill: var(--c-wave-1);
+  --wave-speed: var(--duration-wave-back);
+  --wave-bob: 9s;
+}
+
+.water-wave--mid {
+  --wave-h: 170px;
+  --wave-fill: var(--c-wave-2);
+  --wave-speed: var(--duration-wave-mid);
+  --wave-dir: reverse;
+  --wave-bob: 7s;
+}
+
+.water-wave--front {
+  --wave-h: 120px;
+  --wave-fill: var(--c-wave-3);
+  --wave-speed: var(--duration-wave-front);
+  --wave-bob: 5.5s;
+}
+
+@keyframes wave-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes wave-bob {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 10px, 0);
+  }
+}
+
+/* 涟漪：一个落点 = 三圈错开 1/3 周期的同心环；负延迟让页面一打开就已经在扩散中 */
+.ripple-source {
+  position: absolute;
+  width: var(--ripple-size, 520px);
+  height: var(--ripple-size, 520px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.ripple-ring {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--c-ripple);
+  border-radius: 50%;
+  box-shadow: inset 0 0 28px color-mix(in srgb, var(--c-primary) 9%, transparent);
+  opacity: 0;
+  transform: scale(0.08);
+  animation: ripple-expand var(--duration-ripple) cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  animation-delay: calc(var(--ring, 0) * var(--duration-ripple) / -3);
+}
+
+@keyframes ripple-expand {
+  0% {
+    opacity: 0;
+    transform: scale(0.08);
+  }
+  14% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* ── 实例状态：运行中状态点向外扩散涟漪（2.4s）/ 启动停止的细环旋转 ──
+   颜色取 --breathe-color（<StatusPill> 会按状态色注入），缺省用主色。 */
+
+.breathe {
+  animation: breathe var(--duration-breathe) ease-out infinite;
+}
+
+@keyframes breathe {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--breathe-color, var(--c-primary)) 55%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--breathe-color, var(--c-primary)) 0%, transparent);
+  }
+}
+
+.ring-spin {
+  animation: ring-spin 900ms linear infinite;
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── 成功勾号描边（SVG stroke-dashoffset，400ms） ── */
+
+.check-circle {
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: check-draw var(--duration-check) var(--ease-out-soft) forwards;
+}
+
+.check-path {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  animation: check-draw var(--duration-check) var(--ease-out-soft) 120ms forwards;
+}
+
+@keyframes check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── 骨架屏流光（1.4s） ── */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  background: var(--c-primary-soft);
+}
+
+.skeleton::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 65%), transparent);
+  content: '';
+  animation: skeleton-shimmer var(--duration-skeleton) ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ── 插画动效（07 §2.6：小叶子摇摆、云朵呼吸、纸飞机飘、猫探头、钥匙轻晃） ── */
+
+.ill-sway {
+  transform-origin: 50% 90%;
+  animation: ill-sway 2.6s ease-in-out infinite;
+}
+
+@keyframes ill-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+.ill-float {
+  animation: ill-float 3.2s ease-in-out infinite;
+}
+
+@keyframes ill-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.ill-sleep {
+  animation: ill-sleep 3.6s ease-in-out infinite;
+}
+
+@keyframes ill-sleep {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.9;
+  }
+}
+
+.ill-peek {
+  animation: ill-peek 2.8s ease-in-out infinite;
+}
+
+@keyframes ill-peek {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+/* 数字计数交给 <CountUp>（requestAnimationFrame，600ms），减少动态效果时直接落值（见组件）。 */
+
+/* ── 07 §2.5 / 10 §H2：必须尊重「减少动态效果」 ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up,
+  .stagger-item,
+  .list-enter-active,
+  .skeleton::after,
+  .check-circle,
+  .check-path {
+    animation-duration: var(--duration-press);
+    animation-delay: 0ms;
+    animation-iteration-count: 1;
+  }
+
+  /* 装饰性动效整体关闭：水波、涟漪、光晕、呼吸、旋转、摇摆类插画
+     （波浪层停在初始位置当静态装饰；涟漪环本身 opacity:0，随之隐去） */
+  .water-glow,
+  .water-wave,
+  .water-wave__svg,
+  .ripple-ring,
+  .breathe,
+  .ring-spin,
+  .ill-sway,
+  .ill-float,
+  .ill-sleep,
+  .ill-peek {
+    animation: none;
+  }
+
+  .lift:hover,
+  .press:active {
+    transform: none;
+  }
+
+  .route-fade-enter-active,
+  .route-fade-leave-active {
+    transition: opacity var(--duration-press) linear;
+  }
+
+  .route-fade-enter-from,
+  .route-fade-leave-to {
+    opacity: 0;
+    transform: none;
+  }
+}

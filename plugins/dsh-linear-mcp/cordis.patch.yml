@@ -1,0 +1,29 @@
+# Linear（官方 MCP server）接入。
+#
+# 这一行把 Host 半边的插件插进 profile：
+#   Host 半：index.js（稳定的装载壳）→ impl.js（真正的实现，每次挂载都重新 import，
+#            方便改完代码后用 POST /_dsh/linear-mcp/dev-reload 热更）。
+#           职责：解析凭据（凭据库/环境变量里的 API key）→ 用该凭据把
+#           @deepseek-ai/dsh-mcp-client 这个已安装的插件挂起来（serverName=linear，
+#           于是模型看到 mcp__linear__* 工具）；另外注册 /_dsh/linear-mcp/* 路由
+#           给设置页用。
+#   Client 半：client.js —— 在「设置」里加一页 Linear：填 API key、看连接状态与工具列表。
+#
+# 下面的 config 就是默认值，用户补丁层里同 id 的行会整块替换它。
+- insert:
+    - id: linear-mcp
+      name: '@local/dsh-linear-mcp'
+      config:
+        # 工具命名空间：模型看到的工具名是 mcp__<serverName>__<tool>。
+        serverName: linear
+        # Linear 官方 MCP 端点（Streamable HTTP）。
+        endpoint: https://mcp.linear.app/mcp
+        # 只读端点：true 时改用 https://mcp.linear.app/mcp/readonly（只有读工具）。
+        # 用只读 API key（Linear 里建 key 时只勾 Read）也能达到同样效果。
+        readonly: false
+        # API key 的凭据引用名（环境变量同名亦可）。设置页保存的 key 就写在这个引用下。
+        credentialRef: LINEAR_API_KEY
+        # 单次 MCP 工具调用超时。
+        toolCallTimeoutMs: 60000
+        # 设置页「测试连接」等探测请求的超时。
+        requestTimeoutMs: 20000

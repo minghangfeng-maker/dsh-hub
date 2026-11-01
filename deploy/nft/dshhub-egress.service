@@ -1,0 +1,18 @@
+# 出网规则开机自动恢复（02 §4）。由 deploy/nft/install.sh 渲染后装到 /etc/systemd/system/。
+# 模板里的 NFT_BIN / RULES_DEST 两个占位符由 install.sh 用 sed 替换（默认 /usr/sbin/nft、/etc/dshhub/dshhub.nft）。
+[Unit]
+Description=DSH Hub egress firewall (nftables, 02 §4)
+Documentation=file:__RULES_DEST__
+After=docker.service
+Wants=docker.service
+ConditionPathExists=__RULES_DEST__
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=__NFT_BIN__ -f __RULES_DEST__
+ExecReload=__NFT_BIN__ -f __RULES_DEST__
+ExecStop=__NFT_BIN__ delete table inet dshhub
+
+[Install]
+WantedBy=multi-user.target

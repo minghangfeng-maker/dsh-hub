@@ -1,0 +1,51 @@
+{
+  "name": "@local/dsh-codex-pilot",
+  "version": "0.4.1",
+  "private": true,
+  "description": "「Codex」对话模式：DSH 的对话界面，背后是本机 Codex（codex app-server）；Codex 可以派 DSH 任务，右侧栏实时显示子会话。",
+  "type": "module",
+  "main": "./releases/index.r1.js",
+  "exports": {
+    ".": "./releases/index.r1.js",
+    "./commands": "./releases/commands.r1.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "releases",
+    "runtime",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "hub-agent-modes.d.ts",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=20.11.0",
+    "dsh": ">=0.2.1-rc.2 <0.3.0"
+  },
+  "dependencies": {
+    "@openai/codex": "0.162.1"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "node tools/test-platform.mjs && node tools/test-translate.mjs && node tools/test-hub-provider.mjs"
+  },
+  "license": "Apache-2.0"
+}

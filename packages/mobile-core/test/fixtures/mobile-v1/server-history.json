@@ -1,0 +1,27 @@
+{
+  "v": 1,
+  "type": "history",
+  "requestId": "r3",
+  "sessionId": "s_01J",
+  "items": [
+    {
+      "seq": 12,
+      "role": "user",
+      "at": 1730000000000,
+      "text": "帮我看下测试",
+      "clientMessageId": "m_01A"
+    },
+    {
+      "seq": 13,
+      "role": "assistant",
+      "at": 1730000001000,
+      "text": "先跑定向测试。",
+      "tools": [
+        "bash"
+      ]
+    }
+  ],
+  "nextBeforeSeq": 11,
+  "cursor": 41,
+  "hasMore": true
+}

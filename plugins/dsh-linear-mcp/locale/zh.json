@@ -1,0 +1,4 @@
+{
+  "title": "Linear",
+  "description": "接入 Linear 官方 MCP server：设置页填一个 Linear API key，模型就能直接用 mcp__linear__* 工具读写 issue / project / comment。"
+}

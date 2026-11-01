@@ -1,0 +1,43 @@
+{
+  "name": "dsh-hub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @dsh-hub/api --filter @dsh-hub/web dev",
+    "dev:mobile": "pnpm --filter @dsh-hub/mobile-ui dev",
+    "build": "pnpm -r build",
+    "build:mobile": "pnpm --filter @dsh-hub/mobile-ui build",
+    "mock:hub": "node apps/mock-hub/server.mjs",
+    "apk": "bash scripts/build-apk.sh",
+    "e2e:mobile": "bash scripts/e2e-run.sh",
+    "test": "pnpm -r --workspace-concurrency=1 test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "e2e": "pnpm --filter @dsh-hub/e2e run e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build:mobile-web": "pnpm --filter @dsh-hub/mobile-ui run build:web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.11.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.71.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "vue-demi"
+    ]
+  },
+  "license": "Apache-2.0"
+}

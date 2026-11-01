@@ -1,0 +1,4 @@
+{
+  "v": 1, "type": "message", "sessionId": "s_01J", "seq": 43, "role": "assistant",
+  "at": 1730000002000, "text": "测试通过。", "tools": ["bash"]
+}

@@ -1,0 +1,7 @@
+{
+  "v": 1, "type": "sessions", "requestId": "r2",
+  "items": [
+    { "sessionId": "s_01J", "title": "修 M1 文档", "updatedAt": 1730000000000, "running": true, "blank": false, "agentAvailable": true, "origin": null },
+    { "sessionId": "s_02K", "title": null, "updatedAt": 1729999990000, "running": false, "blank": true, "agentAvailable": false }
+  ]
+}

@@ -1,0 +1,18 @@
+node_modules
+dist
+coverage
+.data
+pnpm-lock.yaml
+*.sql
+
+# 设计文档由编排者维护，不做格式化
+docs
+apps/api/src/modules/models/catalog-data.ts
+
+# 手机端（packages/mobile-*、apps/mobile、apps/mock-hub、plugins）沿用原仓库风格，
+# 整份重排会变成一次几千行的格式噪音；要统一风格时单独一轮做（CI 目前不检查格式）。
+packages/mobile-core
+packages/mobile-ui
+apps/mobile
+apps/mock-hub
+plugins

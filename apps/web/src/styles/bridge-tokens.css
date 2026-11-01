@@ -1,0 +1,154 @@
+/**
+ * 舰桥主题令牌（docs/24 §1「视觉方向：舰桥主题 bridge」）。
+ *
+ * 作用域只有 `.bridge` 根节点：**经典页面继续用 `tokens.css` 的蓝白主题**，两套令牌互不影响；
+ * 舰桥里的组件（渲染器、方案卡、密钥卡、标签、状态胶囊）一行都不改，只把语义令牌换掉即可。
+ *
+ * 配色由 Hub 品牌蓝（`#4D6BFE`）延伸：深海军蓝底 + 半透明深色面板 + 细描边 + 蓝/青辉光。
+ * 状态色只用于状态（好/警告/坏）；数字统一等宽 tabular-nums（渲染器里各自声明）。
+ *
+ * **App 嵌入页（WP56d）要用同一套色值**：`/m/?embed=cockpit&theme=bridge` 侧照抄下面 `--b-*` 与「面板/描边/辉光」几项。
+ */
+.bridge {
+  /* ── 底与面 ── */
+  --c-bg: #070c18; /* 深海军蓝（比经典页的 #F5F8FF 深得多） */
+  --c-bg-grad:
+    radial-gradient(900px 520px at 50% -12%, rgb(40 78 170 / 42%) 0%, transparent 70%),
+    radial-gradient(1400px 900px at 50% 120%, rgb(18 40 92 / 50%) 0%, transparent 70%), #070c18;
+  --c-surface: #111a2e;
+  --c-surface-glass: rgb(13 20 38 / 78%);
+  --c-surface-muted: #16213a;
+  --c-border: rgb(110 150 255 / 17%); /* 细描边：发丝线，不抢内容 */
+  /* 卡片面板用实色：表格的 sticky 列、遮罩都要能和它严丝合缝 */
+  --b-panel: #0f1930;
+  --b-panel-solid: #0f1930;
+  --b-panel-hover: #15203a;
+  --b-pane: rgb(9 15 31 / 58%); /* 两舷底板：比卡片再透一层，卡片浮在上面 */
+  --b-console: rgb(10 17 34 / 92%); /* 中控台（iframe 底色，App 侧 --bridge-console 同值） */
+  --b-line-strong: rgb(110 160 255 / 40%);
+  --b-tick: rgb(70 200 255 / 55%); /* 卡片四角刻度（HUD 角标） */
+  --b-tick-dim: rgb(120 170 255 / 42%);
+  --b-tick-len: 9px;
+  --b-rule: linear-gradient(90deg, rgb(70 200 255 / 55%) 0%, rgb(95 132 255 / 22%) 38%, transparent 100%);
+  --b-horizon: linear-gradient(90deg, transparent 0%, rgb(70 200 255 / 60%) 50%, transparent 100%);
+  --b-grid: rgb(120 160 240 / 6%);
+  --b-chamfer: 12px;
+
+  /* 舰桥里控件更「仪表」：圆角收紧（胶囊照旧） */
+  --radius-card: 5px;
+  --radius-card-lg: 10px;
+  --radius-control: 8px;
+  --radius-control-sm: 6px;
+
+  /* ── 文字 ── */
+  --c-text: #e6eeff;
+  --c-text-2: #a3b3d6;
+  --c-text-3: #6a7ca3;
+
+  /* ── 主色与点缀（在深底上提亮，保证对比度） ── */
+  --c-primary: #5f84ff;
+  --c-primary-hover: #7f9cff;
+  --c-primary-press: #a9bdff;
+  --c-primary-soft: rgb(95 132 255 / 16%);
+  --c-sky: #46c8ff;
+  --c-sky-soft: rgb(70 200 255 / 16%);
+  --c-sakura: #a98bff;
+  --c-sakura-soft: rgb(169 139 255 / 18%);
+  --c-butter: #ffd166;
+  --c-butter-soft: rgb(255 209 102 / 16%);
+  --c-danger: #ff7b8a;
+  --c-danger-soft: rgb(255 123 138 / 16%);
+  --c-success: #35e0a8;
+  --c-success-soft: rgb(53 224 168 / 16%);
+  --c-warning: #ffc046;
+
+  /* 浅底上的深色文字（经典页是「浅底 + 深字」，深色主题里反过来用亮字） */
+  --c-sky-ink: #7fdcff;
+  --c-sakura-ink: #c3aeff;
+  --c-butter-ink: #ffdc8a;
+  --c-danger-ink: #ff9aa6;
+  --c-success-ink: #6cf0c2;
+
+  /* ── 状态（实例） ── */
+  --c-status-running: var(--c-success);
+  --c-status-starting: var(--c-sky);
+  --c-status-stopping: var(--c-sky);
+  --c-status-stopped: #5a6a8c;
+  --c-status-absent: #5a6a8c;
+  --c-status-error: var(--c-danger);
+
+  /* ── 图表类目色（深底版本，与 19 §2.2 的暗色建议同源） ── */
+  --c-series-1: #5b7cff;
+  --c-series-2: #ff8a5c;
+  --c-series-3: #2fd6a4;
+  --c-series-4: #ffc247;
+  --c-series-5: #f58bb6;
+  --c-series-6: #a08cff;
+  --c-series-other: #4a5675;
+
+  /* 主色/亮色胶囊上的文字（深底主题里这两种底，字都是白/近黑） */
+  --b-on-accent: #ffffff;
+  --b-on-badge: #0a1020;
+
+  /* ── 阴影与辉光 ── */
+  --shadow-card: 0 6px 20px rgb(2 6 16 / 45%);
+  --shadow-hover: 0 10px 30px rgb(2 6 16 / 60%);
+  --shadow-header: 0 2px 16px rgb(3 7 18 / 60%);
+  --c-scrim: rgb(3 6 14 / 66%);
+  --focus-ring: 0 0 0 3px rgb(95 132 255 / 45%);
+  --b-glow-primary: 0 0 0 1px rgb(95 132 255 / 38%), 0 0 22px rgb(95 132 255 / 22%);
+  --b-glow-sky: 0 0 0 1px rgb(70 200 255 / 34%), 0 0 20px rgb(70 200 255 / 18%);
+  --b-glow-current: 0 0 0 1px rgb(70 200 255 / 30%), 0 0 24px rgb(70 200 255 / 16%);
+
+  /* ── 组件用的辉光与底（组件里不许写色值字面量，CONTRIBUTING.md 的工程约定） ── */
+  --b-console-shadow:
+    0 0 0 1px rgb(70 200 255 / 6%), 0 18px 60px rgb(20 60 160 / 22%), inset 0 1px 0 rgb(255 255 255 / 4%);
+  --b-pane-inset: inset 0 1px 0 rgb(255 255 255 / 3%);
+  --b-bar-bg: linear-gradient(180deg, rgb(12 20 40 / 92%) 0%, rgb(9 15 31 / 80%) 100%);
+  --b-sky-text-glow: 0 0 12px rgb(70 200 255 / 45%);
+  --b-await-bg: linear-gradient(90deg, rgb(255 192 70 / 9%) 0%, rgb(255 192 70 / 2%) 60%, transparent 100%);
+  --b-await-glow: 0 0 10px rgb(255 192 70 / 55%);
+  --b-await-ring: rgb(255 192 70 / 60%);
+  --b-await-ring-end: rgb(255 192 70 / 0%);
+
+  /* ── 图表 / 指标（WP56h） ──
+     图表里的柱、面积、环形都用「系列色 + 透明度」画（渐变 stop 的 color 直接取 --c-series-N），
+     下面这组是**不属于任何系列**的那几层：玻璃浮层、仪表轨道、数值辉光、表格数据条。 */
+  --b-glass: rgb(14 23 44 / 88%);
+  --b-glass-shadow: 0 10px 28px rgb(2 6 16 / 55%), 0 0 0 1px rgb(70 200 255 / 8%);
+  --b-glass-blur: blur(10px);
+  --b-gauge-track: rgb(120 160 240 / 16%);
+  --b-bar-fill: rgb(70 200 255 / 12%);
+  --b-stat-glow-neutral: 0 0 18px rgb(95 132 255 / 28%);
+  --b-stat-glow-good: 0 0 18px rgb(53 224 168 / 32%);
+  --b-stat-glow-warn: 0 0 18px rgb(255 192 70 / 32%);
+  --b-stat-glow-bad: 0 0 18px rgb(255 123 138 / 34%);
+
+  /* ── 动效时长（入场卡片「从中控台飞出」约 350ms） ── */
+  --b-arrive-duration: 350ms;
+
+  color: var(--c-text);
+  background: var(--c-bg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 极淡的网格底（可关：`data-grid="off"`；减少动态效果时也不画） */
+.bridge[data-grid='on']::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--b-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--b-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  content: '';
+  pointer-events: none;
+  /* 网格只在中心区域可见，向四周淡出（像舷窗外的坐标网） */
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 0%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bridge[data-grid='on']::before {
+    display: none;
+  }
+}

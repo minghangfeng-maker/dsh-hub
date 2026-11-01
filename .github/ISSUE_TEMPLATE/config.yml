@@ -1,0 +1,9 @@
+# Issue 模板的选择页：把「安全问题」引导到 GitHub 私密漏洞报告，而不是公开 issue。
+blank_issues_enabled: true
+contact_links:
+  - name: 报告安全漏洞（私密）
+    url: https://github.com/minghangfeng-maker/dsh-hub/security/advisories/new
+    about: 请勿在公开 issue 里报告安全问题；用仓库 Security 页的「Report a vulnerability」私下提交。见 SECURITY.md。
+  - name: 部署与加固问题
+    url: https://github.com/minghangfeng-maker/dsh-hub/blob/main/deploy/README.md
+    about: 单机部署、TLS、反向代理、出网防火墙与备份恢复的说明。

@@ -1,0 +1,13 @@
+# 证书续期检查（08 §3）：由 dsh-hub-cert.timer 每天触发。
+# 安装：deploy/tls/issue-cert.sh --apply 会把本单元与 timer 一起软链到 ~/.config/systemd/user/
+[Unit]
+Description=DSH Hub certificate renewal check (acme.sh --cron)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/dsh-hub-prod
+Environment=HUB_DATA_DIR=/srv/dsh-hub
+ExecStart=%h/dsh-hub-prod/deploy/tls/renew.sh
+# 续期要走 DNS API：不继承 shell 里的全局代理（Hub 自己的代理变量同样清掉）
+UnsetEnvironment=http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy NODE_USE_ENV_PROXY

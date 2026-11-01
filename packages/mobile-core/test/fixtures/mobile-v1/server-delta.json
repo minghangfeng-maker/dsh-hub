@@ -1,0 +1,6 @@
+{
+  "v": 1, "type": "delta", "sessionId": "s_01J",
+  "attemptId": "att_01", "revision": 3, "index": 7, "turn": 3, "step": 1,
+  "part": { "kind": "text", "text": "正在跑" },
+  "raw": { "type": "text", "text": "正在跑" }
+}

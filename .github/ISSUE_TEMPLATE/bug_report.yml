@@ -1,0 +1,68 @@
+name: Bug report
+description: 报告一个能复现的问题
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        安全问题**不要**在这里提，请按 [SECURITY.md](../blob/main/SECURITY.md) 私下报告。
+        贴日志前先删掉域名、IP、用户名、任何密钥与 cookie。
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: 先确认
+      options:
+        - label: 我搜过现有 issue，没有重复
+          required: true
+        - label: 问题能在最新 `main` 或最新 release 上复现
+          required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 现象
+      description: 发生了什么？期望是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. pnpm install && pnpm -r build
+        2. HUB_CONTAINER_DRIVER=fake pnpm --filter @dsh-hub/api dev
+        3. 打开 /admin/...，点击 ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志 / 截图
+      description: 相关日志（已脱敏）、浏览器控制台、`/api/health` 与 `doctor` 的输出
+      render: shell
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      description: commit 或 tag
+    validations:
+      required: true
+  - type: dropdown
+    id: deploy
+    attributes:
+      label: 部署方式
+      options:
+        - 单机 + Docker
+        - 单机 + fake 驱动（无 Docker）
+        - 本地开发（pnpm dev）
+        - 其他（在下方说明）
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      placeholder: Linux/macOS 版本、Node、pnpm、Docker 版本
+    validations:
+      required: false

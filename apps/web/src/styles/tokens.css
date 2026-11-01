@@ -1,0 +1,184 @@
+/**
+ * 设计令牌 —— 唯一事实来源。
+ *
+ * 来源：docs/07-前端设计.md §2.1（色彩）、§2.2（字体与排版）、§2.3（形状/阴影/间距）。
+ * 约定（CONTRIBUTING.md 的工程约定）：组件里禁止写死颜色值，一律用 var(--c-*)；
+ * 颜色值必须与 src/styles/naive-theme.ts 保持一致（test/theme.test.ts 会核对）。
+ */
+:root {
+  /* ---------- 色彩（07 §2.1）：DeepSeek 蓝白基调 ---------- */
+  --c-primary: #4d6bfe;
+  --c-primary-hover: #4262f0;
+  --c-primary-press: #2f49d6;
+  --c-primary-soft: #eef2ff;
+
+  /* 品牌标记「星座鲸」的墨色：浅色底上是品牌深靛（夜空渐变最深的那一档），暗色主题换白。
+     只给 BrandMark 用；界面主色仍是 --c-primary（那是整套 UI 的主题色，不随 logo 变）。 */
+  --c-brand-ink: #141a4e;
+
+  /* 点缀色沿用历史令牌名（避免牵动上百处引用），色相已换成蓝白体系：
+     sky = 水青蓝（信息 / 进行中）；sakura = 紫罗兰（管理员标签、小红点等强调）；
+     butter = 琥珀（警告 / 配额提醒）；danger = 珊瑚红；success = 水绿（运行中 / 成功） */
+  --c-sky: #3db4f5;
+  --c-sky-soft: #e8f6fe;
+
+  --c-sakura: #9b7bff;
+  --c-sakura-soft: #f3eeff;
+
+  --c-butter: #ffd66b;
+  --c-butter-soft: #fff8e3;
+
+  --c-danger: #f27a7a;
+  --c-danger-soft: #fff0f0;
+
+  --c-success: #1fbf8f;
+  --c-success-soft: #e6f9f2;
+
+  --c-bg: #f5f8ff;
+  --c-bg-grad: linear-gradient(160deg, #ffffff 0%, #f1f5ff 48%, #e3ecff 100%);
+  --c-surface: #ffffff;
+  --c-surface-glass: rgba(255, 255, 255, 0.72);
+  --c-border: #e1e8f7;
+  --c-text: #1a2238;
+  --c-text-2: #56627f;
+  --c-text-3: #8793b0;
+
+  /* 图表类目色（19 §2.2）：按「模型」固定色位，只用在折线 / 柱 / 色块上，
+     文字一律用 --c-text / --c-text-2（浅色下 3、4、5 号对白底对比度 < 3:1，不能当文字色）。
+     暗色（第二期）换一组：--c-series-1 #5b7cff、2 #d95926、3 #199e70、4 #c98500、5 #d55181、6 #9085e9、
+     other #4a5675 —— 已用 dataviz 校验脚本验证。 */
+  --c-series-1: #4d6bfe;
+  --c-series-2: #eb6834;
+  --c-series-3: #1baf7a;
+  --c-series-4: #eda100;
+  --c-series-5: #e87ba4;
+  --c-series-6: #6a47c9;
+  --c-series-other: #b6c0d6;
+
+  /* Naive UI 的 warning 色（07 §2.4）比 --c-butter 更深，用于文字/图标保证对比度 */
+  --c-warning: #f5b841;
+
+  /* 中性浅底：禁用按钮、未上线卡片（WP36 公开主页） */
+  --c-surface-muted: #f2f4f8;
+
+  /* 浅底（*-soft）上的深色文字：同色相压深，保证对比度 ≥4.5:1（头像首字、状态文字等） */
+  --c-sky-ink: #1f6fa6;
+  --c-sakura-ink: #6a47c9;
+  --c-butter-ink: #8a6413;
+  --c-danger-ink: #b45252;
+  --c-success-ink: #0f7d5c;
+
+  /* ---------- 两个端的识别色（WP57）：云端 = 品牌蓝、桌面端 = 紫罗兰 ----------
+     实色上放白字（对比度 ≥ 4.5:1，所以云端取 hover 档、桌面端比 --c-sakura 压深一档）；
+     soft 做浅底、ink 做浅底上的文字。只用于「这是哪个端」的识别：切换滑块、页面端色条、下发流程。 */
+  --c-plat-cloud: #4262f0;
+  --c-plat-cloud-soft: var(--c-primary-soft);
+  --c-plat-cloud-ink: var(--c-primary-press);
+  --c-plat-desktop: #7a5af5;
+  --c-plat-desktop-soft: var(--c-sakura-soft);
+  --c-plat-desktop-ink: var(--c-sakura-ink);
+  /* 端色实色上的文字 */
+  --c-plat-on: #ffffff;
+
+  /* ---------- 实例状态色（07 §2.1） ---------- */
+  --c-status-running: var(--c-success);
+  --c-status-starting: var(--c-sky);
+  --c-status-stopping: var(--c-sky);
+  --c-status-stopped: #b6c0d6;
+  --c-status-absent: #b6c0d6;
+  --c-status-error: var(--c-danger);
+
+  /* ---------- 水波纹（07 §2.5）：波浪层、涟漪环、画布涟漪共用 ---------- */
+  --c-wave-1: color-mix(in srgb, var(--c-primary) 9%, transparent);
+  --c-wave-2: color-mix(in srgb, var(--c-sky) 14%, transparent);
+  --c-wave-3: color-mix(in srgb, var(--c-primary) 16%, transparent);
+  --c-ripple: color-mix(in srgb, var(--c-primary) 34%, transparent);
+
+  /* ---------- 暗色模式预留（第二期，07 §2.1） ---------- */
+  --c-dark-bg: #0f1424;
+  --c-dark-surface: #171e33;
+  --c-dark-primary: #7b93ff;
+
+  /* 第二期接入 usePreferredDark 时，把下面这组挂到 [data-theme='dark'] 上即可：
+     :root[data-theme='dark'] {
+       --c-bg: var(--c-dark-bg);
+       --c-surface: var(--c-dark-surface);
+       --c-primary: var(--c-dark-primary);
+       --c-text: #e8edfa;
+       --c-text-2: #a9b4d0;
+       --c-border: #26304d;
+       --c-series-1: #5b7cff;
+       --c-series-2: #d95926;
+       --c-series-3: #199e70;
+       --c-series-4: #c98500;
+       --c-series-5: #d55181;
+       --c-series-6: #9085e9;
+       --c-series-other: #4a5675;
+       --c-brand-ink: #ffffff;
+     }
+  */
+
+  /* ---------- 字体与排版（07 §2.2） ---------- */
+  --font-sans:
+    'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+  --fs-16: 16px;
+  --fs-17: 17px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-32: 32px;
+  /* 公开主页的大标题（WP36）：桌面 52 / 手机 36 */
+  --fs-display: 52px;
+  --fs-display-sm: 36px;
+
+  --lh-base: 1.6;
+  --fw-normal: 400;
+  --fw-semibold: 600;
+  /* 公开主页大标题（WP36） */
+  --fw-bold: 700;
+
+  /* 页面宽度：用户端 1120px；管理端内容区自适应，表格页最小 960px（07 §2.2） */
+  --page-max-user: 1120px;
+  --page-min-admin: 960px;
+
+  /* ---------- 形状与阴影（07 §2.3） ---------- */
+  --radius-card: 16px;
+  /* 公开主页的卡片与顶栏按钮（WP36，设计稿定稿值） */
+  --radius-card-lg: 18px;
+  --radius-control-sm: 10px;
+  --radius-control: 12px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 6px 24px rgba(77, 107, 254, 0.08), 0 1px 2px rgba(26, 34, 56, 0.04);
+  --shadow-hover: 0 12px 32px rgba(77, 107, 254, 0.16);
+
+  /* 间距：4 的倍数 4/8/12/16/24/32/48；卡片内边距 24；页面边距桌面 32、手机 16 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  --border-width: 1px;
+  --focus-ring: 0 0 0 3px rgba(77, 107, 254, 0.25);
+
+  /* 浮层遮罩与顶栏滚动阴影（管理端抽屉 / 用户端玻璃顶栏） */
+  --c-scrim: rgb(26 34 56 / 28%);
+  --shadow-header: 0 2px 12px rgb(77 107 254 / 8%);
+
+  /* ---------- 玻璃拟态与动效（07 §2.1 / §2.5） ---------- */
+  --blur-glass: blur(16px);
+
+  --duration-press: 120ms;
+  --duration-base: 180ms;
+  --duration-route: 220ms;
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}

@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "type": "message",
+  "sessionId": "s_01J",
+  "seq": 42,
+  "role": "user",
+  "at": 1730000001500,
+  "text": "跑一下测试",
+  "clientMessageId": "m_01A"
+}

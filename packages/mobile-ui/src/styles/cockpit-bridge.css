@@ -1,0 +1,162 @@
+/* ==========================================================================
+   舰桥主题（WP56d / docs/24 §1「视觉方向：舰桥主题 bridge」）
+   --------------------------------------------------------------------------
+   作用域：`html.cockpit-bridge`（只有嵌入座舱 + 父页面传 `theme=bridge` 时才加这个类）。
+   普通 `/m/`、APK 构建里这些选择器一条都不会命中。
+
+   色值与 Hub 舰桥令牌（Hub 仓库 `apps/web/src/styles/bridge-tokens.css`，2026-10-30 编排者定稿）
+   **逐项一致**：改一边必须同步另一边（组件全走这些变量，没有散落的色值）。
+   变量分两层：
+     1) `--bridge-*`：舰桥设计令牌（深海军蓝底 / 半透明深色面板 / 品牌蓝与青色强调）；
+     2) 把 App 既有的 `--bg` / `--surface` / `--text` … 映射到第 1 层 ——
+        这样所有页面与组件（对话、输入卡、过程行、抽屉…）自动跟着深色走，
+        不需要给每个组件加「是不是舰桥」的判断。
+
+   硬要求（docs/24 §1/§6）：深色、**背景透明或同色**，绝不能出现一块白底；
+   数字统一等宽（tabular-nums）；状态色只用于状态。
+   ========================================================================== */
+
+html.cockpit-bridge {
+  /* ── 1) 舰桥设计令牌（待 Hub 令牌表定稿后对齐色值）──────────────────────── */
+  --bridge-bg: #070c18; /* 深海军蓝底 = Hub --c-bg */
+  --bridge-bg-deep: #050913; /* 更深的底色（顶部/底部渐隐） */
+  --bridge-panel: rgba(15, 25, 48, 0.72); /* 半透明深色面板 */
+  --bridge-panel-solid: #0f1930; /* 不透明版本 = Hub --b-panel-solid（浮层/抽屉） */
+  --bridge-panel-strong: rgba(10, 17, 34, 0.92); /* = Hub --b-console */
+  --bridge-line: rgba(110, 150, 255, 0.17); /* 细描边 = Hub --c-border */
+  --bridge-line-strong: rgba(110, 160, 255, 0.4); /* = Hub --b-line-strong */
+  --bridge-text: #e6eeff; /* 主文字：偏冷的近白 */
+  --bridge-text-2: #a3b3d6; /* 次要文字 */
+  --bridge-text-3: #6a7ca3; /* 弱提示 */
+  --bridge-accent: #5f84ff; /* 品牌蓝 = Hub 舰桥 --c-primary */
+  --bridge-accent-ink: #a9bdff;
+  --bridge-cyan: #46c8ff; /* 青色辉光 = Hub --c-sky */
+  --bridge-ok: #35e0a8;
+  --bridge-warn: #ffc046;
+  --bridge-bad: #ff7b8a;
+  --bridge-glow: 0 0 0 1px rgba(95, 132, 255, 0.28), 0 8px 28px rgba(2, 6, 16, 0.55);
+  --bridge-glow-cyan: 0 0 0 1px rgba(70, 200, 255, 0.3), 0 0 18px rgba(70, 200, 255, 0.16);
+  --bridge-radius: 8px; /* = Hub 舰桥 --radius-control */
+
+  /* ── 2) 映射到 App 既有令牌（组件只认这一层）────────────────────────────── */
+  --bg: transparent; /* 背景交给父页面：舰桥页是深色，iframe 透出同色 */
+  --bg-elev: var(--bridge-panel-solid);
+  --surface: var(--bridge-panel-solid);
+  --surface-2: var(--bridge-panel);
+  --surface-3: rgba(22, 34, 62, 0.86);
+  --text: var(--bridge-text);
+  --text-1: var(--bridge-text);
+  --text-2: var(--bridge-text-2);
+  --text-3: var(--bridge-text-3);
+  --border: var(--bridge-line);
+  --border-strong: var(--bridge-line-strong);
+  --bubble: rgba(24, 40, 76, 0.78);
+  --accent: var(--bridge-accent);
+  --accent-ink: var(--bridge-accent-ink);
+  --brand-ink: var(--bridge-cyan);
+  --accent-soft: rgba(95, 132, 255, 0.16);
+  --btn: var(--bridge-accent);
+  --btn-ink: #ffffff; /* 主色按钮上白字（同 Hub --b-on-accent） */
+  --danger: var(--bridge-bad);
+  --code-bg: rgba(9, 18, 32, 0.9);
+  --code-border: var(--bridge-line);
+  --overlay: rgba(4, 10, 20, 0.62);
+  --shadow-card: var(--bridge-glow);
+  --shadow-float: 0 12px 40px rgba(2, 8, 18, 0.6);
+  --radius-card: var(--bridge-radius);
+  --bridge-font-mono: var(--font-mono);
+
+  color-scheme: dark;
+  background: transparent !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 页面本身必须透明：WebView/浏览器默认白底会从圆角/滚动边缘露出来 */
+html.cockpit-bridge,
+html.cockpit-bridge body,
+html.cockpit-bridge #app {
+  background: transparent !important;
+}
+
+html.cockpit-bridge body {
+  color: var(--bridge-text);
+}
+
+/* 细描边 + 切角感的输入卡：舰桥上的控件不该是大白块 */
+html.cockpit-bridge .composer__card {
+  border: 1px solid var(--bridge-line);
+  background: var(--bridge-panel-strong);
+  box-shadow: none;
+  border-radius: var(--bridge-radius);
+}
+
+/* 顶栏：比面板再深一档，和父页面的状态条衔接 */
+html.cockpit-bridge .app-header {
+  background: transparent;
+  border-bottom: 1px solid var(--bridge-line);
+}
+
+/* 用户气泡：半透明深色 + 青色左描边（舰长发言） */
+html.cockpit-bridge .msg-user__bubble {
+  background: var(--bubble);
+  border: 1px solid var(--bridge-line);
+  color: var(--bridge-text);
+}
+
+/* 过程行的「⟶ 已投放…」：青色强调（它是与左右舷联动的入口） */
+html.cockpit-bridge .process__action {
+  color: var(--bridge-cyan);
+  border-color: rgba(70, 200, 255, 0.28);
+  background: rgba(8, 22, 40, 0.72);
+}
+
+/* 「航行日志」下拉面板：不透明深色（下面压着对话，半透明会串字） */
+html.cockpit-bridge .cockpit-log {
+  background: var(--bridge-panel-solid);
+  border: 1px solid var(--bridge-line);
+  box-shadow: var(--bridge-glow);
+}
+
+/* 浮层（模型弹层、会话菜单…）也用深色不透明底 */
+html.cockpit-bridge .sheet,
+html.cockpit-bridge .drawer {
+  background: var(--bridge-panel-solid);
+  border-color: var(--bridge-line);
+}
+
+/* 数字统一等宽（用量、时间、计数） */
+html.cockpit-bridge .process__time,
+html.cockpit-bridge .cockpit-log__time,
+html.cockpit-bridge .conv-badge {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 朗读操作行：座舱里每段短回复都带一行「朗读」太吵。改成悬浮在回复右下角、
+   鼠标移上 / 键盘聚焦 / 正在朗读时才出现，不占行高（普通 /m/ 与 APK 不受影响） */
+html.cockpit-bridge .msg-assistant {
+  position: relative;
+}
+html.cockpit-bridge .msg-actions {
+  position: absolute;
+  right: 0;
+  bottom: -14px;
+  z-index: 1;
+  margin: 0;
+  border: 1px solid var(--bridge-line);
+  border-radius: var(--bridge-radius);
+  background: var(--bridge-panel-solid);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease;
+}
+html.cockpit-bridge .msg-actions .msg-action {
+  min-height: 26px;
+  padding: 2px 8px;
+}
+html.cockpit-bridge .msg-assistant:hover .msg-actions,
+html.cockpit-bridge .msg-actions:focus-within,
+html.cockpit-bridge .msg-actions:has([data-tts-state='playing']),
+html.cockpit-bridge .msg-actions:has([data-tts-state='loading']) {
+  opacity: 1;
+  pointer-events: auto;
+}

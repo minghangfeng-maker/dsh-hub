@@ -1,0 +1,148 @@
+{
+  "kind": "sequenced",
+  "asOfSeq": 147,
+  "values": {
+    "title": "手机端 v2 契约核对（重命名实测）",
+    "goal": null,
+    "tokenUsage": {
+      "uncachedInputTokens": 128,
+      "outputTokens": 547,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 0
+    },
+    "contextPressure": {
+      "pressureTokens": 8,
+      "projectedTokens": 18,
+      "contextWindow": 1000000
+    },
+    "contextBreakdown": {
+      "systemTokens": 1406,
+      "toolsTokens": 6902,
+      "messageTokens": 1086
+    },
+    "inbox": {
+      "next-turn": [],
+      "next-step": []
+    },
+    "sessionStats": {
+      "turns": 10,
+      "steps": 16,
+      "llmMs": 295,
+      "toolMs": 80,
+      "ttftMs": 283,
+      "ttftSteps": 16,
+      "decodeMs": 12,
+      "decodeTokens": 547
+    },
+    "turnOutline": [
+      {
+        "turn": 1,
+        "seq": 4,
+        "prompt": "SCEN:REASON 请说明你的思考过程",
+        "response": "这是带思考过程的一段回答，用来核对 reasoning 增量帧。"
+      },
+      {
+        "turn": 2,
+        "seq": 22,
+        "prompt": "SCEN:PRESENT 请生成一张图并交付",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 3,
+        "seq": 39,
+        "prompt": "SCEN:PRESENT 请生成一张图并交付",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 4,
+        "seq": 55,
+        "prompt": "SCEN:PRESENT 请生成一张图并交付",
+        "response": "已经交付。"
+      },
+      {
+        "turn": 5,
+        "seq": 64,
+        "prompt": "SCEN:ESCAPE 帮我写到工作区外面",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 6,
+        "seq": 73,
+        "prompt": "SCEN:ESCAPE 把结果写到工作区外面",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 7,
+        "seq": 90,
+        "prompt": "SCEN:SEARCH 搜一下资料",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 8,
+        "seq": 105,
+        "prompt": "SCEN:TOOL 建一个指向外面的软链",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 9,
+        "seq": 123,
+        "prompt": "SCEN:TOOL 看一下附件",
+        "response": "已经按你的要求处理好了。"
+      },
+      {
+        "turn": 10,
+        "seq": 140,
+        "prompt": "SCEN:IMAGE 看图",
+        "response": "图片收到了。"
+      }
+    ],
+    "agentPreset": "standard",
+    "userQuestions": {
+      "active": [],
+      "settled": []
+    },
+    "permissions": {
+      "currentValue": "danger-full-access"
+    },
+    "workingDirectory": "/workspace",
+    "subagentCatalog": [],
+    "subagentTiming": {
+      "settledMs": 0
+    },
+    "subagent": null,
+    "todos": null,
+    "plan": {
+      "active": false,
+      "pending": false
+    },
+    "modelSelection": {
+      "lastUsed": {
+        "provider": "deepseek-official",
+        "model": "deepseek-flash",
+        "reasoningEffort": "low"
+      },
+      "next": {
+        "provider": "deepseek-official",
+        "model": "deepseek-flash",
+        "reasoningEffort": "low"
+      }
+    },
+    "sessionListMetadata": {
+      "blank": false,
+      "lastPromptAt": 1792927714662
+    },
+    "imageLimits": {
+      "maxImageBytes": 20971520,
+      "maxImagesPerMessage": 20,
+      "maxMessageImageBytes": 209715200,
+      "maxImagePixels": 64000000,
+      "maxImageDimension": 8192,
+      "mediaTypes": [
+        "image/png",
+        "image/jpeg",
+        "image/webp",
+        "image/gif"
+      ]
+    }
+  }
+}

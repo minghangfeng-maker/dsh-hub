@@ -1,0 +1,7 @@
+{
+  "v": 1, "type": "question", "sessionId": "s_01J", "agent": "ag_01J", "callId": "call_q1", "state": "open",
+  "questions": [
+    { "id": "q1", "question": "允许我在哪个范围跑测试？", "header": "范围", "multiSelect": false,
+      "options": [ { "label": "仅本机" }, { "label": "含容器" } ] }
+  ]
+}

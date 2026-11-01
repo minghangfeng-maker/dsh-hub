@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 同一个分支上的新提交取消上一次还在跑的构建
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: install → build → typecheck → lint → test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Typecheck
+        run: pnpm -r typecheck
+
+      - name: Lint
+        run: pnpm -r lint
+
+      # 串行跑：每个包的 vitest 自己限 4 worker，并行会把 runner 的内存吃光
+      - name: Test
+        run: pnpm -r --workspace-concurrency=1 test
+        env:
+          NODE_ENV: development
+
+      # e2e 需要真 Docker 与真浏览器，单独跑（见 e2e/README.md），不进这个工作流
+
+  plugins:
+    name: plugins（node --check + 无外部依赖的插件测试）
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # plugins/ 故意不进 pnpm workspace（claude-pilot 依赖 Anthropic 专有 SDK，不该被根 install
+      # 拉下来），所以这里不装依赖，只做语法检查 + 不依赖外部包的测试。
+      - name: 语法检查（node --check，全部 .js/.mjs）
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(git ls-files 'plugins' | grep -E '\.(js|mjs)$' || true)
+          echo "检查 ${#files[@]} 个文件"
+          for f in "${files[@]}"; do node --check "$f"; done
+
+      # 只跑**不需要 npm install** 的：memory / file-download / linear-mcp / session-id
+      # （claude-pilot、codex-pilot 需要各自的专有 SDK，只做语法检查）
+      - name: 插件测试（无外部依赖）
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd plugins/dsh-memory && node --test)
+          (cd plugins/dsh-file-download && node test/route.test.mjs)
+          (cd plugins/dsh-linear-mcp && node test/impl.test.mjs)
+          (cd plugins/dsh-session-id && node test/session-id.test.mjs && node test/e2e-apply.test.mjs)

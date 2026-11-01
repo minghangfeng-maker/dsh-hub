@@ -1,0 +1,29 @@
+[Unit]
+Description=DSH ASR (SenseVoice 本机语音识别，WP49)
+Documentation=file://@ASR_HOME@/app/server.py
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=@ASR_HOME@
+Environment=PYTHONUNBUFFERED=1
+Environment=DSH_ASR_HOME=@ASR_HOME@
+Environment=DSH_ASR_HOST=127.0.0.1
+Environment=DSH_ASR_PORT=@PORT@
+Environment=DSH_ASR_LANG=zh
+Environment=DSH_ASR_NUM_THREADS=2
+Environment=DSH_ASR_CONCURRENCY=2
+Environment=DSH_ASR_TIMEOUT_SECONDS=20
+ExecStart=@ASR_HOME@/venv/bin/python @ASR_HOME@/app/server.py
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+# 常驻目标 < 600MB，实测 ~390MB；1G 是硬上限（不占 GPU，Nice 让位给别的服务）
+MemoryMax=1G
+Nice=5
+NoNewPrivileges=yes
+PrivateTmp=yes
+LimitNOFILE=4096
+
+[Install]
+WantedBy=default.target

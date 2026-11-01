@@ -1,0 +1,22 @@
+{
+  "name": "@dsh-hub/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH Hub 端到端测试：真 Docker + 构建产物 + 真浏览器（WP8a）",
+  "scripts": {
+    "e2e": "tsx src/run.ts",
+    "e2e:list": "tsx src/run.ts --list",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "playwright-core": "^1.64.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "license": "Apache-2.0"
+}

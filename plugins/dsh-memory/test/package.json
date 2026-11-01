@@ -1,0 +1,7 @@
+{
+  "name": "dsh-memory-tests",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "main": "../run-tests.mjs"
+}

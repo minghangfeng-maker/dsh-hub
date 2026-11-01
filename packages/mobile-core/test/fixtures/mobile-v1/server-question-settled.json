@@ -1,0 +1,7 @@
+{
+  "v": 1,
+  "type": "question-settled",
+  "sessionId": "s_01J",
+  "callId": "call_q1",
+  "answers": [{ "id": "q1", "selected": ["仅本机"], "custom": "别动生产" }]
+}

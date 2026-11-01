@@ -1,0 +1,64 @@
+// ============================================================================
+// 正式签名注入（由 scripts/release/build-release.sh 用 `--init-script` 传入）
+//
+// 为什么用 init script 而不是改 app/build.gradle：
+//   1. 这个仓库同时在跑 App 联调（A2），`apps/mobile/android/app/build.gradle` 正在被别人改
+//      （versionCode / versionName 就是他们在调），改同一个文件必然冲突；
+//   2. 签名是**发布流程**的事，不是源码的事：口令与 keystore 路径只应出现在构建机的环境里，
+//      不应该有任何一行写进仓库（否则迟早被提交进去）；
+//   3. init script 让我们把「签名 + 版本号」在构建时注入，仓库里一行都不用动。
+//
+// 读取方式（都由 build-release.sh 生成，0600、构建结束即删）：
+//   gradle -I signing.init.gradle -PdshReleaseSigningProps=/tmp/xxx/release-signing.properties
+//   文件内容：storeFile / storePassword / keyAlias / keyPassword / versionCode / versionName
+//
+// 为什么用「属性文件」而不是环境变量：Gradle daemon 会缓存环境变量（改了不生效），
+// 而属性文件每次构建现读；也不用把口令放到命令行（ps 里看不到）。
+//
+// 时序：`beforeProject` 里注册的 `afterEvaluate` 会**先于** AGP 自己的 afterEvaluate 执行，
+// 所以 signingConfig / versionCode 在 AGP 生成变体之前就已就位。
+// ============================================================================
+
+def propsPath = gradle.startParameter.projectProperties['dshReleaseSigningProps']
+if (propsPath == null || propsPath.trim().isEmpty()) {
+    throw new GradleException('缺少 -PdshReleaseSigningProps=<属性文件路径>（用 scripts/release/build-release.sh 构建）')
+}
+def propsFile = new File(propsPath)
+if (!propsFile.isFile()) {
+    throw new GradleException("签名属性文件不存在：${propsPath}")
+}
+
+gradle.beforeProject { project ->
+    project.afterEvaluate {
+        def androidExt = project.extensions.findByName('android')
+        if (androidExt == null || !project.plugins.hasPlugin('com.android.application')) {
+            return
+        }
+
+        def props = new Properties()
+        propsFile.withInputStream { stream -> props.load(stream) }
+
+        def storePath = props.getProperty('storeFile')
+        if (storePath == null) throw new GradleException('签名属性缺 storeFile')
+        def storeFileObj = new File(storePath)
+        if (!storeFileObj.isFile()) throw new GradleException("keystore 不存在：${storePath}")
+
+        def releaseSigning = androidExt.signingConfigs.maybeCreate('release')
+        releaseSigning.storeFile = storeFileObj
+        releaseSigning.storePassword = props.getProperty('storePassword')
+        releaseSigning.keyAlias = props.getProperty('keyAlias')
+        releaseSigning.keyPassword = props.getProperty('keyPassword')
+        releaseSigning.v1SigningEnabled = true
+        releaseSigning.v2SigningEnabled = true
+        androidExt.buildTypes.release.signingConfig = releaseSigning
+
+        // 版本号：正式包必须显式给定（发布脚本总是传，仓库里的默认值只服务于 dev 构建）
+        def versionCode = props.getProperty('versionCode')
+        def versionName = props.getProperty('versionName')
+        if (versionCode != null) androidExt.defaultConfig.versionCode = versionCode.toInteger()
+        if (versionName != null) androidExt.defaultConfig.versionName = versionName
+
+        logger.lifecycle("[signing] release 签名已注入：alias=${releaseSigning.keyAlias} " +
+                "versionName=${androidExt.defaultConfig.versionName} versionCode=${androidExt.defaultConfig.versionCode}")
+    }
+}

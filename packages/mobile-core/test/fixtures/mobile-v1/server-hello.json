@@ -1,0 +1,6 @@
+{
+  "v": 1, "type": "hello", "requestId": "r1",
+  "node": { "id": "cloud:self", "kind": "cloud", "name": "云实例", "status": "running" },
+  "capabilities": { "sessions": true, "history": true, "send": true, "stop": true, "stream": true, "questions": true, "approvals": false, "create": true },
+  "subscribed": [], "serverTime": 1730000000456
+}

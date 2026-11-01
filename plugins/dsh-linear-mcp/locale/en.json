@@ -1,0 +1,4 @@
+{
+  "title": "Linear",
+  "description": "Connect Linear's official MCP server: paste a Linear API key in Settings and the model uses mcp__linear__* tools for issues, projects and comments."
+}

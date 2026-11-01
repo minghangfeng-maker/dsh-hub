@@ -1,0 +1,50 @@
+# dsh-codex-pilot —— 「Codex」对话模式
+#
+# 新建对话时在预设选择器里选 "Codex"：这个对话由本机 Codex（codex app-server）驱动，
+# DSH 只负责界面与记录。Codex 可以用 task_* 工具在 DSH 里派后台任务，
+# 任务是这个对话下的真 DSH 子会话（DSH 自己的模型在跑），右侧栏实时显示。
+#
+# 只改 runtime/*.js：存盘即生效。改本补丁或 releases/index.r1.js：重装 bundle + 重启 DSH。
+- insert:
+    - id: preset-codex-pilot
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: codex-pilot
+        name: Codex
+        description: 由本机 Codex 驱动这个对话；它可以派 DSH 任务并在右侧栏实时显示
+        order: 1
+        plugins:
+          # 模式会话里 DSH 自己的模型不会被调用；不挂 DSH 工具是故意的（工具由 Codex 执行）
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              prefix: >-
+                This Session runs in Codex mode: the Codex CLI performs every turn with its own
+                tools and permissions, and the Harness UI only records and renders the conversation.
+              complete: true
+              includeRuntimeContext: false
+          # Codex 的斜杠命令（/compact、/review、/status…），只对本模式的对话生效
+          - id: codex-pilot-commands
+            name: '@local/dsh-codex-pilot/commands'
+
+    - id: codex-pilot
+      # ⚠ 必须写包名（插件管理器要求补丁行 name === 运行时 moduleName）
+      name: '@local/dsh-codex-pilot'
+      config:
+        # Codex 程序：留空 = CODEX_BIN → PATH 里的 codex，都没有就用插件自带的 @openai/codex；写 bundled 则强制用自带的
+        # codexPath: /path/to/codex
+        # 会话没有工作目录时用哪个目录；留空 = 运行 DSH 的用户的 home
+        # fallbackCwd: /path/to/workdir
+        # Codex 沙箱：danger-full-access（完全权限，默认）| workspace-write | read-only
+        sandbox: danger-full-access
+        # 审批策略：never（不问，默认）| on-request | untrusted。DSH 还没接审批卡：需要审批时完全权限下自动同意，否则拒绝
+        approvalPolicy: never
+        # 默认模型 / 思考程度（UI 里选过就以 UI 为准）；留空 = Codex 默认
+        defaultModel: ''
+        defaultEffort: ''
+        # 派出的 DSH 任务用哪个模型；不写 = DSH 当前默认模型。DSH 默认模型是 codex 时必须写，例如：
+        # taskModel: { provider: deepseek, model: deepseek-chat, reasoningEffort: high }
+        # 派出的 DSH 任务用哪个预设（决定它有哪些工具）
+        taskPreset: standard
+        maxToolResultChars: 30000
+        verbose: false

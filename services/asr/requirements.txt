@@ -1,0 +1,4 @@
+# dsh-asr 运行时依赖（WP49 实测版本：Python 3.12 / linux-x86_64 / CPU）
+# 只有两个包：ONNX 推理与音频数组；HTTP 用标准库。
+sherpa-onnx==2.0.1
+numpy==2.5.4

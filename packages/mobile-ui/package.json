@@ -1,0 +1,44 @@
+{
+  "name": "@dsh-hub/mobile-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "手机端界面层（Vue 3）：首页 / 对话页 / 抽屉 / 设置；同时产出手机网页版（Hub 托管 /m/）",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5242",
+    "build": "vite build && cross-env VITE_TARGET=web vite build",
+    "build:web": "cross-env VITE_TARGET=web vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 5242",
+    "test": "cross-env NODE_ENV=development vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@aparajita/capacitor-secure-storage": "^8.0.1",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/keyboard": "^8.0.6",
+    "@capacitor/preferences": "^8.0.1",
+    "@dsh-hub/mobile-core": "workspace:*",
+    "katex": "^0.19.1",
+    "markdown-it": "^15.0.3",
+    "pinia": "^4.1.0",
+    "shiki": "^4.5.0",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0",
+    "@capacitor/camera": "^8.2.6",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/share": "^8.0.3"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.2.0",
+    "@types/node": "^24.19.2",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "cross-env": "^10.1.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  },
+  "license": "Apache-2.0"
+}

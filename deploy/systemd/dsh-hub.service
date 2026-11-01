@@ -1,0 +1,31 @@
+# DSH Hub 用户级服务（08 §2.2、§3）。安装：
+#   ln -sf ~/dsh-hub-prod/deploy/systemd/dsh-hub.service ~/.config/systemd/user/dsh-hub.service
+#   systemctl --user daemon-reload && systemctl --user enable --now dsh-hub
+# 阶段一：只开明文 7700（本机 http://127.0.0.1:7700）。
+# 阶段二：站点相关的值（真实域名、7443）写在仓库外的 ~/.config/dsh-hub/hub.env 里（见 deploy/hub.env.example）。
+[Unit]
+Description=DSH Hub
+After=network-online.target docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/dsh-hub-prod
+# 阶段一默认值：明文 7700、不开 TLS 网关（HUB_REDIRECT_PORT 已废弃，恒为 0；08 §3）
+Environment=NODE_ENV=production HUB_DATA_DIR=/srv/dsh-hub HUB_PUBLIC_ORIGIN=http://127.0.0.1:7700 HUB_TLS_PORT=0 HUB_REDIRECT_PORT=0
+# 阶段二：把 HUB_PUBLIC_ORIGIN=https://<真实域名>（非标准端口就写 https://<真实域名>:8443）/ HUB_TLS_PORT=7443 /
+# HUB_PROXY_PROTOCOL=true 写进 ~/.config/dsh-hub/hub.env（0600）。前缀 `-`：文件不存在也能启动（阶段一回退只要删掉它）
+EnvironmentFile=-%h/.config/dsh-hub/hub.env
+# 不继承 shell 里的全局代理：Hub 访问 npmmirror / Docker / acme 证书文件都应直连
+UnsetEnvironment=http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy NODE_USE_ENV_PROXY
+# systemd 用户服务的 PATH 只有系统目录，找不到版本管理器装的 node，也找不到 pnpm。
+# 服务端「本地目录入库」要跑 `pnpm pack`：第一段是 upgrade.sh 用 corepack 生成的 pnpm 入口目录，
+# 后面是系统目录。node 不在 /usr/bin 时，把它的目录加进 PATH，或直接改下面 ExecStart 的绝对路径。
+Environment=PATH=%h/.local/share/dsh-hub/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/env node apps/api/dist/main.js
+# always：进程被外部 SIGTERM 时退出码是 0，on-failure 不会拉起。always 只对
+# 「不是 systemctl stop 发起的退出」生效，`systemctl --user stop/restart dsh-hub` 照常可用。
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

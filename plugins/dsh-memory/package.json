@@ -1,0 +1,38 @@
+{
+  "name": "@local/dsh-memory",
+  "version": "0.1.3",
+  "license": "Apache-2.0",
+  "private": true,
+  "description": "DSH 的记忆插件：全局/工作区记忆条目、标签索引、冷热分层、定时整理、设置页与记忆图谱",
+  "type": "module",
+  "exports": {
+    ".": "./runtime/index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "runtime/",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "INSTALL.md",
+    "tools/smoke.mjs"
+  ],
+  "scripts": {
+    "smoke": "node tools/smoke.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  }
+}

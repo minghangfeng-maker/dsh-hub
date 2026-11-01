@@ -1,0 +1,29 @@
+DSH Hub
+Copyright 2026 DSH Hub contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+One exception: `packages/dsh-node-remote` (the thin DSH Host adapter shared with the desktop
+fork) is licensed under the **MIT** License — see `packages/dsh-node-remote/LICENSE`.
+
+It is a community project. It is **not** affiliated with, endorsed by, or supported by
+DeepSeek (深度求索). "DeepSeek", "DeepSeek Harness" and related marks belong to their owners;
+this repository only interoperates with the DSH runtime published by them.
+
+Third-party components
+----------------------
+DSH Hub builds on third-party open-source software, each under its own license. None of it is
+vendored in this repository; it is either resolved as npm dependencies (see the `package.json`
+files and `pnpm-lock.yaml`) or installed into the runtime image at build time.
+Notable ones:
+
+* DeepSeek Harness (`@deepseek-ai/dsh`) — the agent runtime that runs inside each user container,
+  installed from npm at runtime-image build time. Its own license applies; see the package metadata.
+* sherpa-onnx (Apache-2.0) — speech recognition engine used by `services/asr`.
+* SenseVoice model weights — **not distributed here**; download them yourself from their upstream
+  release and check their license and terms of use before deploying.
+* Vue, Naive UI, UnoCSS, Fastify, Vite, Vitest, ESLint and the rest of the npm dependency tree —
+  see each package's license.
+
+Binary artifacts (desktop installers, Android APKs) built from this repository may bundle the
+runtime image and third-party icons; keep their notices with the artifact when you redistribute it.

@@ -1,0 +1,195 @@
+/**
+ * 全局基础样式：最小 reset + body 骨架 + 页面容器 / 卡片辅助类。
+ *
+ * 组件样式请优先用 Uno 原子类（见 uno.config.ts 的 shortcuts）+ tokens.css 令牌；
+ * 这里只放「跨页面复用且 Uno 表达不清晰」的东西（渐变背景、玻璃拟态、页面宽度约束）。
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  font-weight: var(--fw-normal);
+  line-height: var(--lh-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--c-primary-press);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--c-primary-hover);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 键盘可达：统一聚焦环（07 §2.3） */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ---------- 页面容器 ---------- */
+
+/* 用户端内容区：居中，最大宽 1120px，页面边距桌面 32 / 手机 16（07 §2.2） */
+.hub-container {
+  width: 100%;
+  max-width: var(--page-max-user);
+  margin-inline: auto;
+  padding-inline: var(--space-8);
+}
+
+@media (max-width: 640px) {
+  .hub-container {
+    padding-inline: var(--space-4);
+  }
+}
+
+/* 管理端内容区：自适应，表格页最小 960px；横向滚动交给外层滚动容器，避免整页横滚 */
+.hub-container--admin {
+  width: 100%;
+  min-width: var(--page-min-admin);
+  padding: var(--space-8);
+}
+
+/* WP58：AI 助手页整页只有一张卡片（没有表格），1100 宽的小窗口也要放得下 ——
+   不受管理台 960 的最小宽度约束（表格页照旧）。 */
+.hub-container--admin:has(> .admin-page--compact) {
+  min-width: 0;
+}
+
+/* ---------- 卡片与玻璃拟态 ---------- */
+
+.hub-card {
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--c-border);
+  border-radius: var(--radius-card);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft);
+}
+
+.hub-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.hub-glass {
+  border: var(--border-width) solid var(--c-border);
+  background: var(--c-surface-glass);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+}
+
+/* 渐变背景（登录/注册/唤醒页）：Uno 的 bg-[...] 只产出 background-color，故用类表达 */
+.hub-grad-bg {
+  background: var(--c-bg-grad);
+}
+
+/* ---------- 手机宽度（≤640px）的触屏口径（WP54c） ---------- */
+
+/*
+ * 手机网页版（`/m/`）里点「注册 / 找回密码 / 改密码 / 隐私政策」是同源打开这些页面，
+ * 所以它们在手机宽度下要按**触屏**的要求来，而不是把桌面口径缩一缩：
+ *
+ * 1. 输入框字号 ≥16px。iOS Safari 聚焦 font-size < 16px 的输入框会放大整页，放大后布局跑偏、
+ *    提交按钮被挤出可视区。Naive UI 的 14px 放在组件根的行内 `--n-font-size` 上，
+ *    只能覆盖内层 input / textarea（与 Naive 同权重，按加载顺序取胜；`test/mobile-web.test.ts` 会盯住这两段）。
+ * 2. 可点区域 ≥44px（07 §2.3 的 38/40 是桌面口径，手指点不准）：Naive 按钮与顶栏导航项
+ *    直接给最小高度，行内文字链接用自己的 `padding-block` 撑够（不改变行盒高度）。
+ */
+@media (max-width: 640px) {
+  .n-input .n-input__input-el,
+  .n-input .n-input__textarea-el,
+  .n-base-selection-input,
+  input:not([type='checkbox']):not([type='radio']),
+  textarea,
+  select {
+    font-size: var(--fs-16);
+  }
+
+  .n-button {
+    min-height: 44px;
+  }
+
+  .n-button.n-button--circle,
+  .n-button.n-button--circle-type {
+    min-width: 44px;
+  }
+
+  /* 顶栏导航项（工作台导航 / 管理端抽屉）在手机上也够高 */
+  .hub-nav-item {
+    min-height: 44px;
+  }
+
+  /* 认证页（登录 / 注册 / 改密）与隐私说明页底部的行内文字链接：
+     `padding-block` 只撑大手指可点的范围，不改变行盒高度 */
+  .auth-form__foot a,
+  .privacy-page__link {
+    padding-block: 13px;
+  }
+}
+
+/* ---------- 动效偏好（07 §2.5：必须尊重 prefers-reduced-motion） ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* 关闭漂移、呼吸、计数等装饰性动画，只保留 ≤120ms 的淡入 */
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--duration-press) !important;
+    scroll-behavior: auto !important;
+  }
+}

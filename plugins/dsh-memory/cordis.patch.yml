@@ -1,0 +1,37 @@
+# dsh-memory —— 全局记忆 + 会话记忆、标签索引、冷热分层、定时整理、设置页、记忆图谱。
+#
+# 这一行把插件插进 profile：id 是 Loader 行标识（唯一即可），name 用**包名**
+# 解析（安装后落在 profile 的 node_modules），config 原样传给 runtime/index.js
+# 里的 apply(ctx, config)。
+#
+# 同一个包还带一个 Client 半边（package.json 的 dsh.client 指向 client.js）：
+# 它往「设置」加一页「记忆」，数据通道是同源端点 /memory/api。
+#
+# 定时整理的设置**不在这里**：那部分由用户在设置页里改，存到
+# <home>/settings.json。这里只有数据布局和注入预算这类部署级参数。
+- insert:
+    - id: memory
+      name: '@local/dsh-memory'
+      config:
+        # 数据目录。默认 ~/.dsh/memory；换地方就写绝对路径。
+        # 测试时也可以用环境变量 DSH_MEMORY_HOME（config.home 优先）。
+        # home: ~/.dsh/memory
+
+        # 热层预算（字符）：MEMORY.md 里「热记忆」行总长上限，约 2k token。
+        hotBudgetChars: 6000
+
+        # 单条注入消息（baseline / 增量 / 会话笔记）的字符上限。
+        injectBudgetChars: 9000
+
+        # 热度的观察窗口：该作用域最近 N 个会话里有几条读过这条记忆。
+        recentSessions: 20
+
+        # 新建条目在创建后的前 N 个会话里视为热。
+        graceSessions: 5
+
+        # type=project 的条目超过这么多天没 verify 就标记过期（只标 ⚠️，不归档）。
+        staleDays: 30
+
+        # 子代理会话里 memory_write / memory_archive 的处理：
+        #   inbox（默认）= 转成待用户审批的提议；deny = 直接拒绝；allow = 和主会话一样直接写。
+        subagentWrites: inbox

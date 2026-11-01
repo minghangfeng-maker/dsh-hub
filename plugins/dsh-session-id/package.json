@@ -1,0 +1,13 @@
+{
+  "name": "@xdedmi/dsh-session-id",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "private": false,
+  "type": "module",
+  "exports": { ".": "./index.js", "./package.json": "./package.json", "./locale/*.json": "./locale/*.json" },
+  "description": "Generates one stable opencode-style session id per DSH conversation and sends it as request headers on every model request, regardless of model or upstream.",
+  "icon": "./icon.svg",
+  "files": ["index.js", "cordis.patch.yml", "icon.svg", "locale/*.json"],
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } },
+  "engines": { "node": ">=20.3" }
+}

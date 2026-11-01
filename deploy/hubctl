@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Hub 命令行的生产入口：自动指向生产数据目录与生产副本，避免忘记设 HUB_DATA_DIR
+# 而把管理员/运行时写进开发仓库的 .data（08 §2）。
+# 用法：deploy/hubctl <命令> [参数…]   例如：deploy/hubctl create-admin --username alice
+set -euo pipefail
+: "${HUB_DATA_DIR:=/srv/dsh-hub}"
+: "${HUB_PROD_DIR:=$HOME/dsh-hub-prod}"
+export HUB_DATA_DIR
+# 与 systemd 单元一致：不走 shell 的全局代理（npmmirror / Docker 直连）
+unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy NODE_USE_ENV_PROXY
+NODE_BIN="${HUB_NODE:-$(command -v node)}"
+exec "$NODE_BIN" "$HUB_PROD_DIR/apps/api/dist/cli.js" "$@"

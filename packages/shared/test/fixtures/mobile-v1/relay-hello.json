@@ -1,0 +1,5 @@
+{
+  "v": 1, "type": "hello", "deviceId": "dv_0123456789abcdef0123456789abcdef", "hostStatus": "running",
+  "capabilities": { "sessions": true, "history": true, "send": true, "stop": true, "stream": true, "questions": true, "approvals": false, "create": true },
+  "clientVersion": "0.9.3"
+}

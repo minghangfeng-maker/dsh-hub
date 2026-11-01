@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>正在唤醒你的 DSH… · DSH Hub</title>
+    <meta name="description" content="正在唤醒你的 DSH，请稍候片刻" />
+    <meta name="theme-color" content="#F5F8FF" />
+    <!-- favicon 与 index.html 同一组（public/ 下，见 scripts/gen-brand-assets.mjs） -->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <!--
+      唤醒页（07 §8）：独立入口、原生 TS、不引组件库（体积预算 15KB gzip）。
+      代理在用户实例未运行时把 /dsh/<username>/* 指到这里；页面自己 POST start、订阅 SSE、ready 后 reload。
+      样式只用 tokens.css 的令牌，颜色不写死（CONTRIBUTING.md 的工程约定）。
+    -->
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        position: relative;
+        display: flex;
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-6) var(--space-4);
+        background: var(--c-bg-grad);
+        color: var(--c-text);
+        font-family: var(--font-sans);
+        font-size: var(--fs-14);
+        line-height: var(--lh-base);
+      }
+
+      .wake-card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 400px;
+        padding: var(--space-8);
+        border: var(--border-width) solid var(--c-border);
+        border-radius: var(--radius-card);
+        background: var(--c-surface-glass);
+        box-shadow: var(--shadow-card);
+        backdrop-filter: var(--blur-glass);
+        -webkit-backdrop-filter: var(--blur-glass);
+        text-align: center;
+      }
+
+      /* 水滴 + 向外扩散的三圈涟漪（颜色全部来自令牌） */
+      .wake-mark {
+        position: relative;
+        display: flex;
+        width: 96px;
+        height: 96px;
+        margin: 0 auto var(--space-4);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .wake-ring {
+        position: absolute;
+        inset: -32px;
+        border: 1.5px solid var(--c-ripple);
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0.35);
+        animation: wake-ripple 2.7s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+      }
+
+      .wake-ring:nth-child(2) {
+        animation-delay: -0.9s;
+      }
+
+      .wake-ring:nth-child(3) {
+        animation-delay: -1.8s;
+      }
+
+      .wake-drop {
+        position: relative;
+        animation: wake-bob 2.7s ease-in-out infinite;
+      }
+
+      .wake-stop-from {
+        stop-color: var(--c-primary);
+      }
+
+      .wake-stop-to {
+        stop-color: var(--c-sky);
+      }
+
+      .wake-drop-fill {
+        fill: var(--c-surface);
+      }
+
+      .wake-drop-wave {
+        stroke: var(--c-surface);
+        stroke-linecap: round;
+        stroke-opacity: 0.85;
+        stroke-width: 1.8;
+      }
+
+      /* 底部两层波浪：宽 200%、恰含两个周期，平移 -50% 无缝循环 */
+      .wake-wave {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: var(--wave-h);
+        pointer-events: none;
+      }
+
+      .wake-wave svg {
+        display: block;
+        width: 200%;
+        height: 100%;
+        fill: var(--wave-fill);
+        animation: wake-wave-slide var(--wave-speed) linear infinite;
+        animation-direction: var(--wave-dir, normal);
+      }
+
+      .wake-wave--back {
+        --wave-h: 200px;
+        --wave-fill: var(--c-wave-1);
+        --wave-speed: 34s;
+      }
+
+      .wake-wave--front {
+        --wave-h: 120px;
+        --wave-fill: var(--c-wave-3);
+        --wave-speed: 22s;
+        --wave-dir: reverse;
+      }
+
+      .wake-title {
+        margin: 0;
+        font-size: var(--fs-20);
+        font-weight: var(--fw-semibold);
+      }
+
+      .wake-desc {
+        margin: var(--space-3) 0 0;
+        color: var(--c-text-2);
+      }
+
+      .wake-phase {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-top: var(--space-4);
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-pill);
+        background: var(--c-primary-soft);
+        color: var(--c-primary-press);
+        font-size: var(--fs-13);
+      }
+
+      .wake-dots {
+        display: inline-flex;
+        gap: 3px;
+      }
+
+      .wake-dots span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+        animation: wake-blink 1.2s ease-in-out infinite;
+      }
+
+      .wake-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .wake-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      .wake-hint {
+        margin: var(--space-4) 0 0;
+        color: var(--c-text-3);
+        font-size: var(--fs-12);
+      }
+
+      .wake-actions {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+      }
+
+      .wake-actions[hidden],
+      .wake-phase[hidden],
+      .wake-hint[hidden],
+      .wake-failure[hidden] {
+        display: none;
+      }
+
+      .wake-button {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        padding: var(--space-2) var(--space-4);
+        border: var(--border-width) solid var(--c-border);
+        border-radius: var(--radius-control);
+        background: var(--c-surface);
+        color: var(--c-text);
+        cursor: pointer;
+        font: inherit;
+        text-decoration: none;
+        transition:
+          background var(--duration-base) var(--ease-out-soft),
+          transform var(--duration-press) var(--ease-out-soft);
+      }
+
+      .wake-button:hover {
+        background: var(--c-primary-soft);
+        color: var(--c-primary-press);
+      }
+
+      .wake-button:active {
+        transform: scale(0.98);
+      }
+
+      .wake-button--primary {
+        border-color: transparent;
+        background: var(--c-primary);
+        color: var(--c-surface);
+      }
+
+      .wake-button--primary:hover {
+        background: var(--c-primary-hover);
+        color: var(--c-surface);
+      }
+
+      .wake-failure {
+        margin-top: var(--space-3);
+        padding: var(--space-3);
+        border-radius: var(--radius-control);
+        background: var(--c-danger-soft);
+        color: var(--c-danger-ink);
+        font-size: var(--fs-13);
+        text-align: left;
+      }
+
+      @keyframes wake-ripple {
+        0% {
+          opacity: 0;
+          transform: scale(0.35);
+        }
+        20% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes wake-bob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      @keyframes wake-wave-slide {
+        to {
+          transform: translate3d(-50%, 0, 0);
+        }
+      }
+
+      @keyframes wake-blink {
+        0%,
+        100% {
+          opacity: 0.25;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* 07 §2.5：必须尊重系统「减少动态效果」设置 */
+      @media (prefers-reduced-motion: reduce) {
+        .wake-ring,
+        .wake-drop,
+        .wake-wave svg,
+        .wake-dots span {
+          animation: none;
+        }
+
+        .wake-button {
+          transition-duration: var(--duration-press);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wake-wave wake-wave--back" aria-hidden="true">
+      <svg viewBox="0 0 2880 220" preserveAspectRatio="none" focusable="false">
+        <path d="M0 110c240-80 480-80 720 0s480 80 720 0 480-80 720 0 480 80 720 0V220H0Z" />
+      </svg>
+    </div>
+    <div class="wake-wave wake-wave--front" aria-hidden="true">
+      <svg viewBox="0 0 2880 220" preserveAspectRatio="none" focusable="false">
+        <path d="M0 90c180-40 540-40 720 0s540 40 720 0 540-40 720 0 540 40 720 0V220H0Z" />
+      </svg>
+    </div>
+
+    <main class="wake-card" aria-labelledby="wake-title">
+      <div class="wake-mark" aria-hidden="true">
+        <span class="wake-ring"></span><span class="wake-ring"></span><span class="wake-ring"></span>
+        <svg class="wake-drop" width="56" height="56" viewBox="0 0 32 32" fill="none" focusable="false">
+          <defs>
+            <linearGradient id="wake-grad" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
+              <stop class="wake-stop-from" offset="0" />
+              <stop class="wake-stop-to" offset="1" />
+            </linearGradient>
+          </defs>
+          <rect width="32" height="32" rx="9" fill="url(#wake-grad)" />
+          <path
+            class="wake-drop-fill"
+            d="M16 5.5c3.1 3.9 5.6 6.8 5.6 9.7a5.6 5.6 0 0 1-11.2 0c0-2.9 2.5-5.8 5.6-9.7Z"
+          />
+          <path class="wake-drop-wave" d="M8.5 24.6c2.4 1.7 4.6 1.7 7.5 0s5.1-1.7 7.5 0" />
+        </svg>
+      </div>
+
+      <h1 class="wake-title" id="wake-title">正在唤醒你的 DSH…</h1>
+      <p class="wake-desc" id="wake-desc">第一次启动要装插件，通常十几秒就好。</p>
+
+      <p class="wake-phase" id="wake-phase" role="status" aria-live="polite">
+        <span id="wake-phase-text">正在准备…</span>
+        <span class="wake-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+      </p>
+
+      <div class="wake-failure" id="wake-failure" role="alert" hidden>
+        <p id="wake-failure-text">唤醒失败</p>
+      </div>
+
+      <div class="wake-actions" id="wake-actions" hidden>
+        <button type="button" class="wake-button wake-button--primary" id="wake-retry">再试一次</button>
+        <a class="wake-button" id="wake-home" href="/home">返回 Hub</a>
+      </div>
+
+      <p class="wake-hint" id="wake-hint">这个页面会一直等你，好了会自动打开。</p>
+      <noscript>
+        <p class="wake-hint">需要开启 JavaScript 才能唤醒实例，或者直接<a href="/home">返回 Hub</a>。</p>
+      </noscript>
+    </main>
+
+    <script type="module" src="/src/wake/main.ts"></script>
+  </body>
+</html>

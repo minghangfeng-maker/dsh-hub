@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+      手机上这套界面有两种运行环境，index.html 是共用的（Capacitor WebView / 浏览器）：
+        · APK：Capacitor 用 https://localhost 提供本地文件，没有地址栏；
+        · 手机网页版（WP54，VITE_TARGET=web）：Hub 同源托管在 https://…/m/，可「添加到主屏幕」。
+      所以下面这些 PWA 相关的标签**全部是相对的**（挂在 /m/ 下也对），并且在 WebView 里
+      只是「没人读的标签」：不发请求、不报错（manifest 与图标在 public/，两个构建都会拷进
+      产物根，但 WebView 不会去拉它）。
+
+      `viewport-fit=cover` 让页面铺到刘海/手势条所在的边缘，安全区靠 app.css 的
+      `--safe-top` / `--safe-bottom`（env(safe-area-inset-*)）留白 —— APK 与 standalone 一致。
+      `interactive-widget=resizes-content`：键盘弹起时收缩布局视口（而不是把视口盖住），
+      Android Chrome 里输入卡不会被键盘压住；APK 里 Capacitor 本来就是 adjustResize
+      （Keyboard.resize=native），两者是同一效果。
+      缩放：保留原有的 maximum-scale/user-scalable（与 APK 行为一致，不改 APK 的手感）。
+    -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- ---------- 添加到主屏幕（WP54 / W5）：manifest + 图标 ---------- -->
+    <!-- 相对路径：网页版挂在 /m/ 下，manifest 的 start_url/scope 都是 ./，从图标打开落在 /m/ -->
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+    <!-- 浏览器（Android Chrome）认这一条；apple-mobile-web-app-capable 是 iOS 的老名字 -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!--
+      black-translucent：iOS standalone 下内容铺到状态栏下面，状态栏区域透出页面背景色
+      （浅色/深色跟着 theme-color 与页面背景走），顶栏再用 --safe-top 让出状态栏 ——
+      和 APK 里「透明状态栏 + 顶栏留白」是同一种观感。
+    -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DSH Hub" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180.png" />
+
+    <!--
+      状态栏/浏览器 UI 的配色 = App 的实际背景色（app.css 的 --bg / --bg-elev）。
+      两条按系统的亮暗偏好选；用户在设置里强制了主题时，lib/pwa-install.ts 会在运行期
+      把这两条改成实际颜色（否则「系统亮 + App 深」时状态栏会是一条白边）。
+    -->
+    <meta name="theme-color" content="#F9F8F6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#17171A" media="(prefers-color-scheme: dark)" />
+
+    <title>DSH Hub</title>
+    <!--
+      首屏定主题（暗色用户不闪浅色）。**必须是同源的独立脚本**，不能写内联 <script>：
+      手机网页版的 CSP 是 `script-src 'self'`（WP54b），内联脚本会被拦掉 ——
+      表现就是首屏闪浅色 + 控制台一条 CSP 违规。经典脚本（不是 module）在 <head> 里同步执行，
+      仍然早于首屏渲染。逻辑见 public/theme-boot.js（APK 与网页版共用这一份）。
+    -->
+    <script src="./theme-boot.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

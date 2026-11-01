@@ -1,0 +1,191 @@
+/* ==========================================================================
+   控制台主题（WP58 / docs/26 §3「对话区：控制台主题（App，theme=console）」）
+   --------------------------------------------------------------------------
+   作用域：`html.cockpit-console`（只有嵌入座舱 + 父页面传 `theme=console` 时才加这个类）。
+   普通 `/m/`、APK 构建、`theme=bridge` 里这些选择器一条都不会命中。
+
+   与管理台的 AI 助手页配套：这是「嵌在白卡片里的一块桌面面板」，所以
+     - **强制浅色**（强制在 stores/settings.ts + lib/cockpit-embed.ts 里做，这里只兜底）；
+     - **背景透明**（透出 Hub 卡片的 --c-surface，不能出现暖白底 F9F8F6）；
+     - 桌面控件（模型下拉、思考分段、回形针）、悬停才出的消息操作、内容列最大宽 800；
+     - 移动端专属的东西一律不出现（长按菜单、下拉刷新、底部安全区留白、安装提示、更新条）。
+   宽高由 Hub 决定（`cockpit.layout` 的 scale 用 `<html style="zoom">` 应用，见 lib/cockpit-layout.ts）。
+   ========================================================================== */
+
+html.cockpit-console {
+  /* 只覆盖会露出来的几项：Hub 卡片是白的，暖白底在浅色面板里像贴了张纸 */
+  --bg: transparent;
+  --surface-2: #f4f4f5;
+  --surface-3: #ececee;
+  --radius-card: 12px;
+  --shadow-card: none;
+  --shadow-float: 0 8px 28px rgba(16, 20, 32, 0.12);
+  /* 控制台是桌面窗口，没有刘海/底部手势条：安全区一律按 0 算 */
+  --safe-top: 0px;
+  --safe-bottom: 0px;
+
+  color-scheme: light;
+  background: transparent !important;
+}
+
+/* 页面本身必须透明：浏览器默认白底会在圆角/滚动边缘露出来 */
+html.cockpit-console,
+html.cockpit-console body,
+html.cockpit-console #app {
+  background: transparent !important;
+}
+
+/*
+ * 高度要跟着 **zoom 之后的布局视口** 走。
+ * app.css 里 `html, body, #app { height: 100dvh }` 是给手机网页版（地址栏收放）用的，
+ * 而 `dvh` 不跟 `zoom` 缩：控制台里 zoom=1.25 时它们会算成「未缩放的 900px」，
+ * 整壳比可视区高 25%，输入卡被顶到屏幕外（2026-10-30 截图发现）。
+ * 这里改回 `100%`——百分比跟的是 initial containing block（Chrome 会按 1/zoom 收窄）。
+ */
+html.cockpit-console,
+html.cockpit-console body,
+html.cockpit-console #app {
+  height: 100%;
+}
+
+html.cockpit-console body {
+  color: var(--text);
+  /* docs/26 §3.1：正文 14px、行高 1.7（缩放由 cockpit.layout 的 zoom 统一乘） */
+  font-size: 14px;
+  line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+  /* 控制台里没有「下拉刷新」：整页不回弹 */
+  overscroll-behavior: none;
+}
+
+/* ── 布局：会话左栏（docked）+ 内容列 ─────────────────────────────────────── */
+
+/* 控制台用左栏形态时，壳从「竖排」变成「左栏 | 主区」。会话栏只在 docked 时渲染。 */
+html.cockpit-console .app-shell {
+  flex-direction: row;
+}
+
+html.cockpit-console .app-shell__main {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+/* 内容列（消息 + 输入框）居中、最大宽 800px（docs/26 §2.1 的脚注，缩放前） */
+html.cockpit-console .thread__inner {
+  max-width: 800px;
+  padding: 10px 20px 20px;
+  gap: 18px;
+}
+
+html.cockpit-console .composer {
+  /* 控制台里输入卡是白底卡片，外壳不再铺一层渐变背景 */
+  background: transparent;
+  padding: 6px 16px 14px;
+}
+
+html.cockpit-console .composer__card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 10px 12px 8px;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+/* 聚焦：主色描边 + 3px 主色 15% 光晕（docs/26 §3.2） */
+html.cockpit-console .composer__card:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(77, 107, 254, 0.15);
+}
+
+html.cockpit-console .composer__input {
+  font-size: 14px;
+  line-height: 1.7;
+  max-height: 12.5em; /* 2–12 行：再高就出滚动条（1em ≈ 1.7 × 14px 的一行） */
+  padding: 2px 2px 6px;
+}
+
+/* 发送按钮 32px 圆形（默认 34），操作行更紧凑 */
+html.cockpit-console .send-btn {
+  width: 32px;
+  height: 32px;
+}
+
+/* 麦克风（按住说话）是手机交互：控制台主题下隐藏（组件里也不渲染，这里兜底） */
+html.cockpit-console .composer__mic {
+  display: none;
+}
+
+/* 消息操作（朗读等）悬停才出现（照搬 bridge 的做法，docs/26 §3.4） */
+html.cockpit-console .msg-assistant {
+  position: relative;
+}
+html.cockpit-console .msg-actions {
+  position: absolute;
+  right: 0;
+  bottom: -14px;
+  z-index: 1;
+  margin: 0;
+  padding: 0 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease;
+}
+html.cockpit-console .msg-actions .msg-action {
+  min-height: 26px;
+  padding: 2px 8px;
+}
+html.cockpit-console .msg-assistant:hover .msg-actions,
+html.cockpit-console .msg-actions:focus-within,
+html.cockpit-console .msg-actions:has([data-tts-state='playing']),
+html.cockpit-console .msg-actions:has([data-tts-state='loading']) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 用户消息右对齐气泡：白底卡片里用浅灰底 + 深一档文字，和 Hub 的消息区一致（§3.4） */
+html.cockpit-console .msg-user {
+  background: #f4f4f5;
+  color: var(--text);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* 助手消息铺满内容列（不是气泡） */
+html.cockpit-console .msg-assistant,
+html.cockpit-console .msg-assistant .markdown {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* 顶部细状态条 / 错误条：跟白卡片对齐的轻量底 */
+html.cockpit-console .app-header {
+  border-bottom: 1px solid var(--border);
+}
+html.cockpit-console .status-strip {
+  margin: 0 12px 4px;
+  border-radius: 8px;
+}
+
+/* 「航行日志」下拉（menu 形态）也换成桌面面板的观感 */
+html.cockpit-console .cockpit-log {
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #ffffff;
+}
+
+/* 空态示例按钮（HomeView 的控制台空态）——只在这里收边距，按钮本身在组件里 */
+html.cockpit-console .console-empty {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

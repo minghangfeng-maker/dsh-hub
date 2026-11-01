@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@dsh-hub/shared": [
+        "../../packages/shared/src/index.ts"
+      ],
+      "@dsh-hub/dsh-node-remote": [
+        "../../packages/dsh-node-remote/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "test",
+    "vitest.config.ts"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@dshhub/ops",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DSH Hub 管理座舱插件：能力检索、方案、画布与密钥请求（docs/24 §5）",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "tools.js",
+    "guard.js",
+    "client.js",
+    "session.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "Apache-2.0"
+}

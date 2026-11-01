@@ -1,0 +1,78 @@
+{
+  "selectModelUnsupportedEffort": {
+    "code": "session/model-unavailable",
+    "message": "provider \"deepseek-official\" model \"deepseek-flash\" does not support reasoning effort \"ultra\"",
+    "details": {
+      "provider": "deepseek-official",
+      "model": "deepseek-flash"
+    }
+  },
+  "selectModelUnknownModel": {
+    "code": "session/model-unavailable",
+    "message": "Select an available model before sending a message.",
+    "details": {
+      "provider": "deepseek-official",
+      "model": "no-such-model"
+    }
+  },
+  "createUnknownPreset": {
+    "code": "agent-preset/not-found",
+    "message": "Unknown agent preset: nope",
+    "details": {
+      "agentPreset": "nope",
+      "available": [
+        "standard",
+        "ptc",
+        "minimal",
+        "cordis"
+      ]
+    }
+  },
+  "imageInvalid": {
+    "code": "session/attachment-invalid",
+    "message": "Unsupported or malformed image data.",
+    "details": {
+      "reason": "INVALID_IMAGE"
+    }
+  },
+  "attachmentNotReferenced": {
+    "code": "session/attachment-invalid",
+    "message": "Image is not referenced by this session.",
+    "details": {
+      "reason": "ATTACHMENT_NOT_REFERENCED"
+    }
+  },
+  "listRootSlash": {
+    "code": "workspace-file/outside-workspace",
+    "message": "\"/\" is outside the workspace",
+    "details": {
+      "path": "/"
+    }
+  },
+  "listEmptyPath": {
+    "code": "gateway/bad-request",
+    "message": "path is required",
+    "details": {}
+  },
+  "sessionSearchDisabled": {
+    "code": "gateway/internal",
+    "message": "session search failed: SessionQueryError: session search is disabled: this deployment configures the session-query index with openAt \"never\"",
+    "details": {}
+  },
+  "workspaceDeleteUnknown": {
+    "code": "workspace/not-found",
+    "message": "Workspace \"__nope__\" not found",
+    "details": {
+      "workspaceId": "__nope__"
+    }
+  },
+  "followAssistantStreamFalse": {
+    "code": "gateway/input-invalid",
+    "message": "typert gateway: session/follow: wire field \"request\" failed boundary validation",
+    "details": {
+      "endpoint": "session/follow",
+      "field": "request"
+    }
+  },
+  "_note_followAssistantStreamFalse": "assistantStream 是 const:true（schema 里就写死 true），传 false 会被 wire 层拒。契约 §1.1 踩坑 4。"
+}

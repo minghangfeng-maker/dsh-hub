@@ -1,0 +1,15 @@
+# 每日 03:30 备份（Persistent=true：关机错过的会在开机后补跑）。
+# 08 §5 里 db 是 03:30、工作区增量是 04:00；这里合成一次跑完（少一次唤醒与 IO 竞争）。
+# 需要严格分开时用 scripts/backup.sh --only db / --only workspace 各配一个 timer（见 deploy/README.md）。
+[Unit]
+Description=每天 03:30 备份 DSH Hub
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+Persistent=true
+# 最多随机推迟 5 分钟，避开整点其它任务
+RandomizedDelaySec=300
+Unit=dsh-hub-backup.service
+
+[Install]
+WantedBy=timers.target

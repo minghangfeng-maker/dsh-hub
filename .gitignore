@@ -1,0 +1,42 @@
+node_modules/
+dist/
+coverage/
+.data/
+*.log
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+.vite/
+.DS_Store
+.pnpm-store/
+*.tgz
+
+# ── 手机端（apps/mobile + packages/mobile-*）────────────────────────────────
+# 手机网页版产物（packages/mobile-ui 的 `build:web`，由 Hub 托管在 /m/）
+packages/mobile-ui/dist-web/
+# e2e 运行器输出（scripts/e2e-run.sh）
+.e2e-runs/
+# e2e 脚本自己的临时构建产物（scripts/e2e-web-pwa.mjs：网页版 / APK 版各一份）
+packages/mobile-ui/.e2e-dist-*/
+
+# Capacitor 生成物：由 `cap sync android` 从 packages/mobile-ui/dist 拷入/生成，
+# 里面是本机 node_modules 的绝对路径与二进制资源，一律不入库。
+apps/mobile/android/app/src/main/assets/public/
+apps/mobile/android/app/src/main/assets/capacitor.config.json
+apps/mobile/android/app/src/main/assets/capacitor.plugins.json
+apps/mobile/android/app/src/main/res/xml/config.xml
+apps/mobile/android/android/capacitor-cordova-android-plugins/
+apps/mobile/android/build/
+apps/mobile/android/.gradle/
+apps/mobile/android/app/build/
+apps/mobile/android/local.properties
+apps/mobile/android/capacitor.settings.gradle
+apps/mobile/android/app/capacitor.build.gradle
+
+# 安卓出包产物与签名材料（绝不入库）
+*.apk
+*.aab
+*.jks
+*.keystore
+scripts/release/out/

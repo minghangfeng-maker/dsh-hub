@@ -1,0 +1,3052 @@
+{
+  "note": "session/page 的结果，records 已脱敏（系统提示、工具 schema、compact stream 去掉）。",
+  "hasMore": false,
+  "records": [
+    {
+      "type": "event",
+      "event": {
+        "type": "permission/preset",
+        "seq": 0,
+        "time": 1792927597837,
+        "data": {
+          "preset": "danger-full-access"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "sandbox/mode",
+        "seq": 1,
+        "time": 1792927597838,
+        "data": {
+          "mode": "danger-full-access"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "approval/policy",
+        "seq": 2,
+        "time": 1792927597838,
+        "data": {
+          "policy": "never"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 3,
+        "time": 1792927598152,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:REASON 请说明你的思考过程"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-reason-1792927598149"
+              },
+              "role": "user",
+              "id": "ed808b24-acc2-4ee1-b6ee-8756d3864bda"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 4,
+        "time": 1792927598153,
+        "data": {
+          "turn": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 5,
+        "time": 1792927598154,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 6,
+        "time": 1792927598185,
+        "data": {
+          "turn": 1,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "system/message",
+        "seq": 7,
+        "time": 1792927598186,
+        "data": {
+          "turn": 1,
+          "step": 1,
+          "message": {
+            "role": "system",
+            "content": [
+              {
+                "type": "text",
+                "text": "<system prompt omitted>"
+              }
+            ],
+            "source": {
+              "kind": "system-prompt"
+            },
+            "id": "84192865-2fee-4f8c-a1f4-75763fcc723d"
+          }
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 8,
+        "time": 1792927598187,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:REASON 请说明你的思考过程"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-reason-1792927598149"
+          },
+          "role": "user",
+          "id": "ed808b24-acc2-4ee1-b6ee-8756d3864bda"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 9,
+        "time": 1792927598187,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent working directory: \"/workspace\".\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nCurrent DeepSeek Harness implementation checkout: \"/usr/local/lib/node_modules/@deepseek-ai/dsh/\".\n\nCurrent DeepSeek Harness Web GUI URL: \"http://127.0.0.1:3001\"."
+            }
+          ],
+          "source": {
+            "kind": "runtime-context",
+            "form": "snapshot",
+            "sections": [
+              {
+                "name": "working-directory:current",
+                "text": "Current working directory: \"/workspace\"."
+              },
+              {
+                "name": "sandbox:policy",
+                "text": "Current DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations."
+              },
+              {
+                "name": "approval:policy",
+                "text": "Approval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`)."
+              },
+              {
+                "name": "harness:source",
+                "text": "Current DeepSeek Harness implementation checkout: \"/usr/local/lib/node_modules/@deepseek-ai/dsh/\"."
+              },
+              {
+                "name": "app:web-surface",
+                "text": "Current DeepSeek Harness Web GUI URL: \"http://127.0.0.1:3001\"."
+              }
+            ]
+          },
+          "role": "user",
+          "id": "6ff24f9a-c1a3-4b36-969e-51566464c3d9"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 10,
+        "time": 1792927598187,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Time sampled while preparing turn 1, step 1: 2026-10-25T19:26:38+08:00[Asia/Shanghai]\nBrowser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.\nElapsed since the preceding model-visible message: unavailable."
+            }
+          ],
+          "source": {
+            "kind": "time-context",
+            "form": "snapshot",
+            "sections": [
+              {
+                "name": "time-context",
+                "text": "Time sampled while preparing turn 1, step 1: 2026-10-25T19:26:38+08:00[Asia/Shanghai]\nBrowser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.\nElapsed since the preceding model-visible message: unavailable."
+              }
+            ]
+          },
+          "role": "user",
+          "id": "b937f15e-ee55-4e3a-a030-ce9228941f48"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "request/header",
+        "seq": 11,
+        "time": 1792927598188,
+        "data": {
+          "header": {
+            "config": {
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "reasoningEffort": "low",
+              "maxTokens": 256000
+            },
+            "adapterDefaults": {
+              "maxTokens": true
+            },
+            "tools": "<31 tool schemas omitted>"
+          },
+          "reason": "initial"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "request/context",
+        "seq": 12,
+        "time": 1792927598189,
+        "data": {
+          "provider": "deepseek-official",
+          "model": "deepseek-flash",
+          "contextWindow": 1000000,
+          "systemPromptUpdate": "in-history"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session/title",
+        "seq": 13,
+        "time": 1792927598192,
+        "data": {
+          "title": "SCEN:REASON 请说明你的思考过程",
+          "messageSeqs": [
+            8
+          ],
+          "source": {
+            "kind": "fallback"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session/title-llm-request",
+        "seq": 14,
+        "time": 1792927598193,
+        "data": {
+          "titleProvider": "session-title-first-prompt-llm",
+          "messageSeqs": [
+            8
+          ],
+          "route": {
+            "provider": "deepseek-official",
+            "model": "deepseek-flash"
+          },
+          "system": "<title system prompt omitted>",
+          "messages": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Generate the session title from this JSON array of human messages:\n[{\"seq\":8,\"text\":\"SCEN:REASON 请说明你的思考过程\"}]"
+                }
+              ],
+              "source": {
+                "kind": "dsh-session-title-llm"
+              },
+              "role": "user",
+              "id": "47b6dcf2-74d4-4466-9585-dc87da39f9a9"
+            }
+          ],
+          "maxTokens": 4096,
+          "reasoningEffort": "off"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 15,
+        "time": 1792927598280,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 14
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 16,
+        "time": 1792927598282,
+        "data": {
+          "turn": 1,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "reasoning",
+                "text": "先想一下用户在问什么：他想要一段能验证 reasoning 增量的回答，所以我要把推理过程写在 thinking 块里。先想一下用户在问什么：他想要一段能验证 reasoning 增量的回答，所以我要把推理过程写在 thinking 块里。先想一下用户在问什么：他想要一段能验证 reasoning 增量的回答，所以我要把推理过程写在 thinking 块里。"
+              },
+              {
+                "type": "text",
+                "text": "这是带思考过程的一段回答，用来核对 reasoning 增量帧。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "reasoning"
+                  },
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "48f114b9-d449-4395-b4be-a7fb1251647d"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 212,
+            "totalTokens": 220
+          },
+          "stream": "<8 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 17,
+        "time": 1792927598283,
+        "data": {
+          "turn": 1,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 18,
+        "time": 1792927598283,
+        "data": {
+          "turn": 1,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 19,
+        "time": 1792927598287,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 14
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session/title",
+        "seq": 20,
+        "time": 1792927598288,
+        "data": {
+          "title": "WP40c 会话标题",
+          "messageSeqs": [
+            8
+          ],
+          "source": {
+            "kind": "provider",
+            "provider": "session-title-first-prompt-llm",
+            "model": {
+              "provider": "deepseek-official",
+              "model": "deepseek-flash"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 21,
+        "time": 1792927598667,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:PRESENT 请生成一张图并交付"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-present-1-1792927598664"
+              },
+              "role": "user",
+              "id": "90f73ae1-87e1-4a1b-bafd-b89babdf07a3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 22,
+        "time": 1792927598668,
+        "data": {
+          "turn": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 23,
+        "time": 1792927598669,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 24,
+        "time": 1792927598690,
+        "data": {
+          "turn": 2,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 25,
+        "time": 1792927598691,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:PRESENT 请生成一张图并交付"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-present-1-1792927598664"
+          },
+          "role": "user",
+          "id": "90f73ae1-87e1-4a1b-bafd-b89babdf07a3"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 26,
+        "time": 1792927598699,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 25
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 27,
+        "time": 1792927598701,
+        "data": {
+          "turn": 2,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "tool-call",
+                "id": "wp40c-bash-1792927598698",
+                "name": "bash",
+                "arguments": "{\"description\":\"生成一张 png 图片到 artifacts\",\"command\":\"mkdir -p /workspace/artifacts && printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAXklEQVR42u3OMQEAAAgDoJnc6BpjDyQgdWXmBTQFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4tQGJAAGq2w1AAAAAAElFTkSuQmCC' | base64 -d > /workspace/artifacts/wp40c-chart.png && ls -l /workspace/artifacts/wp40c-chart.png\"}"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            },
+            "id": "248ba215-2bb8-48d4-a54f-95f37b04d677"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 40,
+            "totalTokens": 48
+          },
+          "stream": "<6 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/call",
+        "seq": 28,
+        "time": 1792927598701,
+        "data": {
+          "turn": 2,
+          "step": 1,
+          "callId": "wp40c-bash-1792927598698",
+          "name": "bash",
+          "arguments": "{\"description\":\"生成一张 png 图片到 artifacts\",\"command\":\"mkdir -p /workspace/artifacts && printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAXklEQVR42u3OMQEAAAgDoJnc6BpjDyQgdWXmBTQFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4tQGJAAGq2w1AAAAAAElFTkSuQmCC' | base64 -d > /workspace/artifacts/wp40c-chart.png && ls -l /workspace/artifacts/wp40c-chart.png\"}"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/registered",
+        "seq": 29,
+        "time": 1792927598711,
+        "data": {
+          "jobId": "bash-2bc784e45c1c4895",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "mkdir -p /workspace/artifacts && printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAXklEQVR42u3OMQEAAAgDoJnc6BpjDyQgdWXmBTQFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4tQGJAAGq2w1AAAAAAElFTkSuQmCC' | base64 -d > /workspace/artifacts/wp40c-chart.png && ls -l /workspace/artifacts/wp40c-chart.png",
+          "startedAt": 1792927598711,
+          "toolCall": {
+            "callId": "wp40c-bash-1792927598698",
+            "rootCallId": "wp40c-bash-1792927598698"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/settled",
+        "seq": 30,
+        "time": 1792927598716,
+        "data": {
+          "jobId": "bash-2bc784e45c1c4895",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "mkdir -p /workspace/artifacts && printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAXklEQVR42u3OMQEAAAgDoJnc6BpjDyQgdWXmBTQFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4tQGJAAGq2w1AAAAAAElFTkSuQmCC' | base64 -d > /workspace/artifacts/wp40c-chart.png && ls -l /workspace/artifacts/wp40c-chart.png",
+          "startedAt": 1792927598711,
+          "toolCall": {
+            "callId": "wp40c-bash-1792927598698",
+            "rootCallId": "wp40c-bash-1792927598698"
+          },
+          "finishedAt": 1792927598716,
+          "status": "completed",
+          "cause": "producer",
+          "producerReported": true,
+          "detail": "exit code: 0"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/result",
+        "seq": 31,
+        "time": 1792927598717,
+        "data": {
+          "turn": 2,
+          "step": 1,
+          "message": {
+            "role": "tool",
+            "source": {
+              "kind": "tool",
+              "callId": "wp40c-bash-1792927598698"
+            },
+            "toolCallId": "wp40c-bash-1792927598698",
+            "content": [
+              {
+                "type": "text",
+                "text": "-rw-r--r-- 1 dsh dsh 165 Oct 25 19:26 /workspace/artifacts/wp40c-chart.png\n"
+              }
+            ],
+            "isError": false,
+            "id": "53651415-b955-45f8-87d4-478aa0d65dd4"
+          },
+          "meta": {
+            "cwd": "/workspace"
+          }
+        },
+        "sourceEventSeqs": [
+          28
+        ],
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 32,
+        "time": 1792927598718,
+        "data": {
+          "turn": 2,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 33,
+        "time": 1792927598733,
+        "data": {
+          "turn": 2,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 34,
+        "time": 1792927598741,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 33
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 35,
+        "time": 1792927598743,
+        "data": {
+          "turn": 2,
+          "step": 2,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "29e18753-7b7a-4fd5-9bde-b7708532621c"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 36,
+        "time": 1792927598743,
+        "data": {
+          "turn": 2,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 37,
+        "time": 1792927598744,
+        "data": {
+          "turn": 2,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 38,
+        "time": 1792927599085,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:PRESENT 请生成一张图并交付"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-present-2-1792927599081"
+              },
+              "role": "user",
+              "id": "85d590e8-080d-417f-9dbc-afc37f33707c"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 39,
+        "time": 1792927599085,
+        "data": {
+          "turn": 3
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 40,
+        "time": 1792927599086,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 41,
+        "time": 1792927599107,
+        "data": {
+          "turn": 3,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 42,
+        "time": 1792927599109,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:PRESENT 请生成一张图并交付"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-present-2-1792927599081"
+          },
+          "role": "user",
+          "id": "85d590e8-080d-417f-9dbc-afc37f33707c"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 43,
+        "time": 1792927599117,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 42
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 44,
+        "time": 1792927599119,
+        "data": {
+          "turn": 3,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "tool-call",
+                "id": "wp40c-present-1792927599116",
+                "name": "present",
+                "arguments": "{\"files\":[{\"path\":\"/workspace/artifacts/wp40c-chart.png\",\"description\":\"WP40c 测试图表\"}]}"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            },
+            "id": "7ec7bdb9-29a8-4e0f-b930-5bbf008de138"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 40,
+            "totalTokens": 48
+          },
+          "stream": "<6 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/call",
+        "seq": 45,
+        "time": 1792927599119,
+        "data": {
+          "turn": 3,
+          "step": 1,
+          "callId": "wp40c-present-1792927599116",
+          "name": "present",
+          "arguments": "{\"files\":[{\"path\":\"/workspace/artifacts/wp40c-chart.png\",\"description\":\"WP40c 测试图表\"}]}"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "deliverables/presented",
+        "seq": 46,
+        "time": 1792927599126,
+        "data": {
+          "turn": 3,
+          "callId": "wp40c-present-1792927599116",
+          "files": [
+            {
+              "path": "/workspace/artifacts/wp40c-chart.png",
+              "description": "WP40c 测试图表"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/result",
+        "seq": 47,
+        "time": 1792927599127,
+        "data": {
+          "turn": 3,
+          "step": 1,
+          "message": {
+            "role": "tool",
+            "source": {
+              "kind": "tool",
+              "callId": "wp40c-present-1792927599116"
+            },
+            "toolCallId": "wp40c-present-1792927599116",
+            "content": [
+              {
+                "type": "text",
+                "text": "Presented /workspace/artifacts/wp40c-chart.png"
+              }
+            ],
+            "isError": false,
+            "id": "7ddf32a8-56aa-4dd7-bd6f-fc4580c3ad50"
+          }
+        },
+        "sourceEventSeqs": [
+          45
+        ],
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 48,
+        "time": 1792927599127,
+        "data": {
+          "turn": 3,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 49,
+        "time": 1792927599140,
+        "data": {
+          "turn": 3,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 50,
+        "time": 1792927599151,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 49
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 51,
+        "time": 1792927599153,
+        "data": {
+          "turn": 3,
+          "step": 2,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "1d7c4c7f-efd1-437a-93d5-a488f85903bf"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 52,
+        "time": 1792927599153,
+        "data": {
+          "turn": 3,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 53,
+        "time": 1792927599153,
+        "data": {
+          "turn": 3,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 54,
+        "time": 1792927599503,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:PRESENT 请生成一张图并交付"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-present-3-1792927599500"
+              },
+              "role": "user",
+              "id": "81259687-dd1f-45ed-80fb-61850d1b9216"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 55,
+        "time": 1792927599504,
+        "data": {
+          "turn": 4
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 56,
+        "time": 1792927599505,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 57,
+        "time": 1792927599523,
+        "data": {
+          "turn": 4,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 58,
+        "time": 1792927599524,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:PRESENT 请生成一张图并交付"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-present-3-1792927599500"
+          },
+          "role": "user",
+          "id": "81259687-dd1f-45ed-80fb-61850d1b9216"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 59,
+        "time": 1792927599531,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 58
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 60,
+        "time": 1792927599533,
+        "data": {
+          "turn": 4,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经交付。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "eadbe018-1e74-4bad-8883-ecc83bd54217"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 5,
+            "totalTokens": 13
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 61,
+        "time": 1792927599534,
+        "data": {
+          "turn": 4,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 62,
+        "time": 1792927599534,
+        "data": {
+          "turn": 4,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 63,
+        "time": 1792927599938,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:ESCAPE 帮我写到工作区外面"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-escape-1792927599935"
+              },
+              "role": "user",
+              "id": "ae25a0a0-d971-4db8-9b07-ec7bcd2ef51f"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 64,
+        "time": 1792927599939,
+        "data": {
+          "turn": 5
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 65,
+        "time": 1792927599939,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 66,
+        "time": 1792927599958,
+        "data": {
+          "turn": 5,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 67,
+        "time": 1792927599959,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:ESCAPE 帮我写到工作区外面"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-escape-1792927599935"
+          },
+          "role": "user",
+          "id": "ae25a0a0-d971-4db8-9b07-ec7bcd2ef51f"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 68,
+        "time": 1792927599968,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 67
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 69,
+        "time": 1792927599969,
+        "data": {
+          "turn": 5,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "df1f1a9b-f655-47ac-b8dc-cda4a1d5d141"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 70,
+        "time": 1792927599969,
+        "data": {
+          "turn": 5,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 71,
+        "time": 1792927599970,
+        "data": {
+          "turn": 5,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 72,
+        "time": 1792927622334,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:ESCAPE 把结果写到工作区外面"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-escape-1792927622329"
+              },
+              "role": "user",
+              "id": "10e13721-40a0-48e0-9c85-95f72585f5ed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 73,
+        "time": 1792927622336,
+        "data": {
+          "turn": 6
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 74,
+        "time": 1792927622336,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 75,
+        "time": 1792927622371,
+        "data": {
+          "turn": 6,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 76,
+        "time": 1792927622373,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:ESCAPE 把结果写到工作区外面"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-escape-1792927622329"
+          },
+          "role": "user",
+          "id": "10e13721-40a0-48e0-9c85-95f72585f5ed"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 77,
+        "time": 1792927622389,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 76
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 78,
+        "time": 1792927622392,
+        "data": {
+          "turn": 6,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "tool-call",
+                "id": "wp40c-escape-1792927622386",
+                "name": "bash",
+                "arguments": "{\"description\":\"在工作区外写一个文件（验证 danger-full-access 是否还会要审批）\",\"command\":\"id -u; printf \\\"escaped\\\\n\\\" > /home/dsh/wp40c-outside.txt && cat /home/dsh/wp40c-outside.txt && echo WROTE_OUTSIDE\"}"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            },
+            "id": "e0b3a8d0-4cd2-478b-9671-78070174ddd5"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 40,
+            "totalTokens": 48
+          },
+          "stream": "<6 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/call",
+        "seq": 79,
+        "time": 1792927622392,
+        "data": {
+          "turn": 6,
+          "step": 1,
+          "callId": "wp40c-escape-1792927622386",
+          "name": "bash",
+          "arguments": "{\"description\":\"在工作区外写一个文件（验证 danger-full-access 是否还会要审批）\",\"command\":\"id -u; printf \\\"escaped\\\\n\\\" > /home/dsh/wp40c-outside.txt && cat /home/dsh/wp40c-outside.txt && echo WROTE_OUTSIDE\"}"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/registered",
+        "seq": 80,
+        "time": 1792927622404,
+        "data": {
+          "jobId": "bash-3b9e90a0a1f34dd8",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "id -u; printf \"escaped\\n\" > /home/dsh/wp40c-outside.txt && cat /home/dsh/wp40c-outside.txt && echo WROTE_OUTSIDE",
+          "startedAt": 1792927622403,
+          "toolCall": {
+            "callId": "wp40c-escape-1792927622386",
+            "rootCallId": "wp40c-escape-1792927622386"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/settled",
+        "seq": 81,
+        "time": 1792927622409,
+        "data": {
+          "jobId": "bash-3b9e90a0a1f34dd8",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "id -u; printf \"escaped\\n\" > /home/dsh/wp40c-outside.txt && cat /home/dsh/wp40c-outside.txt && echo WROTE_OUTSIDE",
+          "startedAt": 1792927622403,
+          "toolCall": {
+            "callId": "wp40c-escape-1792927622386",
+            "rootCallId": "wp40c-escape-1792927622386"
+          },
+          "finishedAt": 1792927622409,
+          "status": "completed",
+          "cause": "producer",
+          "producerReported": true,
+          "detail": "exit code: 0"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/result",
+        "seq": 82,
+        "time": 1792927622411,
+        "data": {
+          "turn": 6,
+          "step": 1,
+          "message": {
+            "role": "tool",
+            "source": {
+              "kind": "tool",
+              "callId": "wp40c-escape-1792927622386"
+            },
+            "toolCallId": "wp40c-escape-1792927622386",
+            "content": [
+              {
+                "type": "text",
+                "text": "1000\nescaped\nWROTE_OUTSIDE\n"
+              }
+            ],
+            "isError": false,
+            "id": "5e2de96e-56f4-49bb-aa64-cf85b32a2ae6"
+          },
+          "meta": {
+            "cwd": "/workspace"
+          }
+        },
+        "sourceEventSeqs": [
+          79
+        ],
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 83,
+        "time": 1792927622412,
+        "data": {
+          "turn": 6,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 84,
+        "time": 1792927622427,
+        "data": {
+          "turn": 6,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 85,
+        "time": 1792927622437,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 84
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 86,
+        "time": 1792927622440,
+        "data": {
+          "turn": 6,
+          "step": 2,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "d9c655d4-475f-4b05-9b02-c206d711d22f"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 87,
+        "time": 1792927622440,
+        "data": {
+          "turn": 6,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 88,
+        "time": 1792927622441,
+        "data": {
+          "turn": 6,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 89,
+        "time": 1792927622758,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:SEARCH 搜一下资料"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-search-1792927622754"
+              },
+              "role": "user",
+              "id": "66cbe714-b390-44bc-be0b-d2c8ada4e309"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 90,
+        "time": 1792927622758,
+        "data": {
+          "turn": 7
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 91,
+        "time": 1792927622759,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 92,
+        "time": 1792927622778,
+        "data": {
+          "turn": 7,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 93,
+        "time": 1792927622780,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:SEARCH 搜一下资料"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-search-1792927622754"
+          },
+          "role": "user",
+          "id": "66cbe714-b390-44bc-be0b-d2c8ada4e309"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 94,
+        "time": 1792927622790,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 93
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 95,
+        "time": 1792927622792,
+        "data": {
+          "turn": 7,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "tool-call",
+                "id": "wp40c-search-1792927622789",
+                "name": "web_search",
+                "arguments": "{\"query\":\"DSH Hub 手机端 v2\"}"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            },
+            "id": "3f5e2297-eeb1-4242-acba-33338a976b41"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 40,
+            "totalTokens": 48
+          },
+          "stream": "<6 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/call",
+        "seq": 96,
+        "time": 1792927622793,
+        "data": {
+          "turn": 7,
+          "step": 1,
+          "callId": "wp40c-search-1792927622789",
+          "name": "web_search",
+          "arguments": "{\"query\":\"DSH Hub 手机端 v2\"}"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/result",
+        "seq": 97,
+        "time": 1792927622798,
+        "data": {
+          "turn": 7,
+          "step": 1,
+          "message": {
+            "role": "tool",
+            "source": {
+              "kind": "tool",
+              "callId": "wp40c-search-1792927622789"
+            },
+            "toolCallId": "wp40c-search-1792927622789",
+            "content": [
+              {
+                "type": "text",
+                "text": "Error: invalid arguments: missing required property \"queries\""
+              }
+            ],
+            "isError": true,
+            "id": "eb00a903-2d12-45b5-a83a-97f05d676b43"
+          },
+          "error": {
+            "name": "ToolArgsError",
+            "code": "INVALID_ARGS"
+          }
+        },
+        "sourceEventSeqs": [
+          96
+        ],
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 98,
+        "time": 1792927622799,
+        "data": {
+          "turn": 7,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 99,
+        "time": 1792927622811,
+        "data": {
+          "turn": 7,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 100,
+        "time": 1792927622820,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 99
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 101,
+        "time": 1792927622822,
+        "data": {
+          "turn": 7,
+          "step": 2,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "b34eaef1-1b25-465e-8112-00acdfa76722"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 102,
+        "time": 1792927622823,
+        "data": {
+          "turn": 7,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 103,
+        "time": 1792927622823,
+        "data": {
+          "turn": 7,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 104,
+        "time": 1792927623195,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:TOOL 建一个指向外面的软链"
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-link-1792927623191"
+              },
+              "role": "user",
+              "id": "93704fc1-562e-409f-bc84-4f8588b091c4"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 105,
+        "time": 1792927623196,
+        "data": {
+          "turn": 8
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 106,
+        "time": 1792927623197,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 107,
+        "time": 1792927623216,
+        "data": {
+          "turn": 8,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 108,
+        "time": 1792927623217,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:TOOL 建一个指向外面的软链"
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-link-1792927623191"
+          },
+          "role": "user",
+          "id": "93704fc1-562e-409f-bc84-4f8588b091c4"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 109,
+        "time": 1792927623227,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 108
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 110,
+        "time": 1792927623229,
+        "data": {
+          "turn": 8,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "tool-call",
+                "id": "wp40c-bash-1792927623226",
+                "name": "bash",
+                "arguments": "{\"description\":\"写一段中文并统计行数\",\"command\":\"mkdir -p /workspace/artifacts && printf \\\"第一行\\\\n第二行\\\\n\\\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常\"}"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            },
+            "id": "eecdbb2b-34b1-4eab-b048-fca06bc728f5"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 40,
+            "totalTokens": 48
+          },
+          "stream": "<6 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/call",
+        "seq": 111,
+        "time": 1792927623230,
+        "data": {
+          "turn": 8,
+          "step": 1,
+          "callId": "wp40c-bash-1792927623226",
+          "name": "bash",
+          "arguments": "{\"description\":\"写一段中文并统计行数\",\"command\":\"mkdir -p /workspace/artifacts && printf \\\"第一行\\\\n第二行\\\\n\\\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常\"}"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/registered",
+        "seq": 112,
+        "time": 1792927623240,
+        "data": {
+          "jobId": "bash-7ff04b3c0e2a4161",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "mkdir -p /workspace/artifacts && printf \"第一行\\n第二行\\n\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常",
+          "startedAt": 1792927623240,
+          "toolCall": {
+            "callId": "wp40c-bash-1792927623226",
+            "rootCallId": "wp40c-bash-1792927623226"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/settled",
+        "seq": 113,
+        "time": 1792927623244,
+        "data": {
+          "jobId": "bash-7ff04b3c0e2a4161",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "mkdir -p /workspace/artifacts && printf \"第一行\\n第二行\\n\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常",
+          "startedAt": 1792927623240,
+          "toolCall": {
+            "callId": "wp40c-bash-1792927623226",
+            "rootCallId": "wp40c-bash-1792927623226"
+          },
+          "finishedAt": 1792927623244,
+          "status": "completed",
+          "cause": "producer",
+          "producerReported": true,
+          "detail": "exit code: 0"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/result",
+        "seq": 114,
+        "time": 1792927623245,
+        "data": {
+          "turn": 8,
+          "step": 1,
+          "message": {
+            "role": "tool",
+            "source": {
+              "kind": "tool",
+              "callId": "wp40c-bash-1792927623226"
+            },
+            "toolCallId": "wp40c-bash-1792927623226",
+            "content": [
+              {
+                "type": "text",
+                "text": "2 /workspace/artifacts/wp40c-note.txt\n中文输出正常\n"
+              }
+            ],
+            "isError": false,
+            "id": "b2a68e8f-1a0b-4e84-b278-dd77c2722ea2"
+          },
+          "meta": {
+            "cwd": "/workspace"
+          }
+        },
+        "sourceEventSeqs": [
+          111
+        ],
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 115,
+        "time": 1792927623245,
+        "data": {
+          "turn": 8,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 116,
+        "time": 1792927623258,
+        "data": {
+          "turn": 8,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 117,
+        "time": 1792927623268,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 116
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 118,
+        "time": 1792927623269,
+        "data": {
+          "turn": 8,
+          "step": 2,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "217fcf33-f750-48a6-bec4-776a52369b9d"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 119,
+        "time": 1792927623270,
+        "data": {
+          "turn": 8,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 120,
+        "time": 1792927623270,
+        "data": {
+          "turn": 8,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session/title",
+        "seq": 121,
+        "time": 1792927675230,
+        "data": {
+          "title": "手机端 v2 契约核对（重命名实测）",
+          "messageSeqs": [],
+          "source": {
+            "kind": "user"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 122,
+        "time": 1792927679382,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:TOOL 看一下附件"
+                },
+                {
+                  "type": "file",
+                  "attachment": {
+                    "attachmentId": "sha256:da1393ca9413322935d6f8d5d697e7cf5a97d1bc50c03261ac6ae8c902e2862d",
+                    "name": "wp40c-attach.txt",
+                    "bytes": 29
+                  }
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-file-1792927679378"
+              },
+              "role": "user",
+              "id": "9948d124-f07d-4528-ab2e-e684189e36b7"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 123,
+        "time": 1792927679382,
+        "data": {
+          "turn": 9
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 124,
+        "time": 1792927679383,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 125,
+        "time": 1792927679403,
+        "data": {
+          "turn": 9,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 126,
+        "time": 1792927679404,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:TOOL 看一下附件"
+            },
+            {
+              "type": "file",
+              "attachment": {
+                "attachmentId": "sha256:da1393ca9413322935d6f8d5d697e7cf5a97d1bc50c03261ac6ae8c902e2862d",
+                "name": "wp40c-attach.txt",
+                "bytes": 29
+              }
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-file-1792927679378"
+          },
+          "role": "user",
+          "id": "9948d124-f07d-4528-ab2e-e684189e36b7"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 127,
+        "time": 1792927679416,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 126
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 128,
+        "time": 1792927679417,
+        "data": {
+          "turn": 9,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "tool-call",
+                "id": "wp40c-bash-1792927679415",
+                "name": "bash",
+                "arguments": "{\"description\":\"写一段中文并统计行数\",\"command\":\"mkdir -p /workspace/artifacts && printf \\\"第一行\\\\n第二行\\\\n\\\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常\"}"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "tool-call"
+                  }
+                ]
+              }
+            },
+            "id": "93e88968-01f1-4cb5-8dd4-34e86b3554df"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 40,
+            "totalTokens": 48
+          },
+          "stream": "<6 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/call",
+        "seq": 129,
+        "time": 1792927679418,
+        "data": {
+          "turn": 9,
+          "step": 1,
+          "callId": "wp40c-bash-1792927679415",
+          "name": "bash",
+          "arguments": "{\"description\":\"写一段中文并统计行数\",\"command\":\"mkdir -p /workspace/artifacts && printf \\\"第一行\\\\n第二行\\\\n\\\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常\"}"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/registered",
+        "seq": 130,
+        "time": 1792927679427,
+        "data": {
+          "jobId": "bash-0b430ce961164178",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "mkdir -p /workspace/artifacts && printf \"第一行\\n第二行\\n\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常",
+          "startedAt": 1792927679427,
+          "toolCall": {
+            "callId": "wp40c-bash-1792927679415",
+            "rootCallId": "wp40c-bash-1792927679415"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "job/settled",
+        "seq": 131,
+        "time": 1792927679433,
+        "data": {
+          "jobId": "bash-0b430ce961164178",
+          "owner": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "kind": "bash",
+          "label": "mkdir -p /workspace/artifacts && printf \"第一行\\n第二行\\n\" > /workspace/artifacts/wp40c-note.txt && wc -l /workspace/artifacts/wp40c-note.txt && echo 中文输出正常",
+          "startedAt": 1792927679427,
+          "toolCall": {
+            "callId": "wp40c-bash-1792927679415",
+            "rootCallId": "wp40c-bash-1792927679415"
+          },
+          "finishedAt": 1792927679433,
+          "status": "completed",
+          "cause": "producer",
+          "producerReported": true,
+          "detail": "exit code: 0"
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "tool/result",
+        "seq": 132,
+        "time": 1792927679435,
+        "data": {
+          "turn": 9,
+          "step": 1,
+          "message": {
+            "role": "tool",
+            "source": {
+              "kind": "tool",
+              "callId": "wp40c-bash-1792927679415"
+            },
+            "toolCallId": "wp40c-bash-1792927679415",
+            "content": [
+              {
+                "type": "text",
+                "text": "2 /workspace/artifacts/wp40c-note.txt\n中文输出正常\n"
+              }
+            ],
+            "isError": false,
+            "id": "f10f07a6-d8ce-4e43-9aba-b0a43d354f7c"
+          },
+          "meta": {
+            "cwd": "/workspace"
+          }
+        },
+        "sourceEventSeqs": [
+          129
+        ],
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 133,
+        "time": 1792927679435,
+        "data": {
+          "turn": 9,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 134,
+        "time": 1792927679448,
+        "data": {
+          "turn": 9,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 135,
+        "time": 1792927679456,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 134
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 136,
+        "time": 1792927679457,
+        "data": {
+          "turn": 9,
+          "step": 2,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "已经按你的要求处理好了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "dad5cefe-e7a2-42e4-9a74-5d498d38d560"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 12,
+            "totalTokens": 20
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 137,
+        "time": 1792927679458,
+        "data": {
+          "turn": 9,
+          "step": 2
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 138,
+        "time": 1792927679458,
+        "data": {
+          "turn": 9,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 139,
+        "time": 1792927714634,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "inserted": [
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "SCEN:IMAGE 看图"
+                },
+                {
+                  "type": "image",
+                  "attachment": {
+                    "attachmentId": "sha256:11c464f0d37d6c9338fe0d60b50073637cbefab9d059b96823e177971c731ef7",
+                    "mediaType": "image/png",
+                    "width": 64,
+                    "height": 64,
+                    "bytes": 7831,
+                    "name": "valid.png"
+                  }
+                }
+              ],
+              "source": {
+                "kind": "user",
+                "rpcId": "wp40c-img2-1792927714608"
+              },
+              "role": "user",
+              "id": "93048e97-fa6f-473b-8bba-c49e8adad4bf"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/start",
+        "seq": 140,
+        "time": 1792927714634,
+        "data": {
+          "turn": 10
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "agent/inbox/spliced",
+        "seq": 141,
+        "time": 1792927714636,
+        "data": {
+          "target": "next-turn",
+          "start": 0,
+          "removedCount": 1,
+          "inserted": []
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/start",
+        "seq": 142,
+        "time": 1792927714660,
+        "data": {
+          "turn": 10,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "user/message",
+        "seq": 143,
+        "time": 1792927714662,
+        "data": {
+          "content": [
+            {
+              "type": "text",
+              "text": "SCEN:IMAGE 看图"
+            },
+            {
+              "type": "image",
+              "attachment": {
+                "attachmentId": "sha256:11c464f0d37d6c9338fe0d60b50073637cbefab9d059b96823e177971c731ef7",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 64,
+                "bytes": 7831,
+                "name": "valid.png"
+              }
+            }
+          ],
+          "source": {
+            "kind": "user",
+            "rpcId": "wp40c-img2-1792927714608"
+          },
+          "role": "user",
+          "id": "93048e97-fa6f-473b-8bba-c49e8adad4bf"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "session-log-deepseek/delivery-accepted",
+        "seq": 144,
+        "time": 1792927714684,
+        "data": {
+          "sessionId": "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf",
+          "sessionFormatVersion": 4,
+          "throughSeq": 143
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "assistant/message",
+        "seq": 145,
+        "time": 1792927714685,
+        "data": {
+          "turn": 10,
+          "step": 1,
+          "message": {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "text",
+                "text": "图片收到了。"
+              }
+            ],
+            "source": {
+              "kind": "model",
+              "provider": "deepseek-official",
+              "model": "deepseek-flash",
+              "replayState": {
+                "response": {
+                  "kind": "deepseek-messages",
+                  "version": 1,
+                  "model": "deepseek-flash"
+                },
+                "blocks": [
+                  {
+                    "type": "text"
+                  }
+                ]
+              }
+            },
+            "id": "0acac2e4-f951-4040-8b70-35f89d355166"
+          },
+          "usage": {
+            "inputTokens": 8,
+            "outputTokens": 6,
+            "totalTokens": 14
+          },
+          "stream": "<5 compact stream records omitted>"
+        },
+        "surfaceOp": "append"
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "step/end",
+        "seq": 146,
+        "time": 1792927714686,
+        "data": {
+          "turn": 10,
+          "step": 1
+        }
+      }
+    },
+    {
+      "type": "event",
+      "event": {
+        "type": "turn/end",
+        "seq": 147,
+        "time": 1792927714686,
+        "data": {
+          "turn": 10,
+          "reason": {
+            "kind": "completed"
+          }
+        }
+      }
+    }
+  ]
+}

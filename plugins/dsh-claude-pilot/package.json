@@ -1,0 +1,52 @@
+{
+  "name": "@local/dsh-claude-pilot",
+  "version": "0.6.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "description": "「Claude Code」对话模式：DSH 的对话界面，背后是本机 Claude Code（Agent SDK）；Claude 可以派 DSH 任务，右侧栏实时显示子会话。",
+  "type": "module",
+  "main": "./releases/index.r1.js",
+  "exports": {
+    ".": "./releases/index.r1.js",
+    "./commands": "./releases/commands.r1.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "releases",
+    "runtime",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "hub-agent-modes.d.ts"
+  ],
+  "engines": {
+    "node": ">=20.11.0",
+    "dsh": ">=0.2.1-rc.2 <0.3.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.303",
+    "@anthropic-ai/sdk": "^0.135.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.6.7"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "node tools/test-platform.mjs && node tools/test-hub-provider.mjs"
+  }
+}

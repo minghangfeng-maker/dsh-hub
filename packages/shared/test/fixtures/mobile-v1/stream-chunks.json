@@ -1,0 +1,7 @@
+{
+  "text-delta": { "type": "text-delta", "index": 0, "text": "真实正文" },
+  "reasoning-delta": { "type": "reasoning-delta", "index": 0, "text": "真实思考" },
+  "tool-call-delta": { "type": "tool-call-delta", "index": 0, "id": "call_1", "name": "bash", "argumentsDelta": "{\"cmd\"" },
+  "block-start": { "type": "block-start", "index": 0 },
+  "finish": { "type": "finish", "reason": "stop" }
+}

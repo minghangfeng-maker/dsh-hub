@@ -1,0 +1,23 @@
+# 每日备份（08 §5）：db（VACUUM INTO）+ secrets + 用户工作区增量 tar。
+# 安装：
+#   ln -sf ~/dsh-hub-prod/deploy/systemd/dsh-hub-backup.service ~/.config/systemd/user/
+#   ln -sf ~/dsh-hub-prod/deploy/systemd/dsh-hub-backup.timer   ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable --now dsh-hub-backup.timer
+# 手动跑一次： systemctl --user start dsh-hub-backup.service && journalctl --user -u dsh-hub-backup -n 50
+[Unit]
+Description=DSH Hub 每日备份（hub.db + secrets + 用户工作区增量）
+Documentation=file:%h/dsh-hub-prod/deploy/README.md
+After=default.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/dsh-hub-prod
+Environment=HUB_DATA_DIR=/srv/dsh-hub HUB_BACKUP_DIR=/mnt/backup/dsh-hub
+UnsetEnvironment=http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy NODE_USE_ENV_PROXY
+# 备份脚本自己从 $0 推出仓库目录（%h/dsh-hub-prod），无需再传路径
+ExecStart=%h/dsh-hub-prod/scripts/backup.sh
+# 备份不该跟 Hub 抢 IO/CPU
+Nice=10
+IOSchedulingClass=idle
+# 备份失败要留痕，但不要无限重试（timer 明天还会跑）
+TimeoutStartSec=3600

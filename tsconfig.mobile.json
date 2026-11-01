@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "//": "手机端（apps/mobile、packages/mobile-core、packages/mobile-ui）的 TS 基线：在根 tsconfig.base.json 上改成给 Vite/Capacitor 用的打包器语义（DOM + bundler 解析 + ESM 语法检查）。服务端（apps/api、apps/web、packages/*）继续用根 tsconfig.base.json 的 NodeNext。",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "noUncheckedIndexedAccess": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "noEmit": true,
+    "types": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@dsh-hub/mock-hub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "本地假 Hub：认证、bootstrap、唤醒、ticket 与手机通道 v1 帧；端口 5242–5250",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  },
+  "license": "Apache-2.0"
+}

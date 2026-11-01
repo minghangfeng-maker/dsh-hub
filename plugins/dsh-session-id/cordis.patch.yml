@@ -1,0 +1,36 @@
+# dsh-session-id — one stable session id per DSH conversation, sent on every model request
+#
+# Listens on the `llm/stream` waterfall (the harness's official LLM request
+# interception seam) and scopes each streamed call to its conversation session
+# id via AsyncLocalStorage. A global fetch wrapper then injects the id as
+# request headers onto the HTTP requests issued inside that scope — with no
+# provider/host/baseURL matching, so every upstream gets it regardless of
+# model or provider. Requests that run outside any session scope are passed
+# through untouched.
+#
+# Wire value: opencode-style. A `session-<uuid>` conversation id is stripped
+# to its uuid and deterministically hashed (SHA-256 -> nanoid-style token,
+# 21 chars like opencode's `ses_<token>` without the fixed prefix). Same
+# session -> same token across requests, restarts and compaction. Set
+# `rawSessionId: true` to send the raw dsh session id instead.
+#
+# All keys are optional; defaults below. Remember: a user-level patch
+# replaces the whole `config` block (no deep merge), so restate every key.
+# Example with every key at its default:
+#
+#   - insert:
+#       - id: dsh-session-id
+#         name: '@xdedmi/dsh-session-id'
+#         config:
+#           headers: [x-opencode-session, x-session-affinity, x-client-request-id, x-session-id]
+#           prefix: ses_
+#           length: 21
+#           alphabet: alphanumeric   # or urlsafe
+#           rawSessionId: false
+#           extraHeaders: {}
+#           verbose: false
+
+- insert:
+    - id: dsh-session-id
+      name: '@xdedmi/dsh-session-id'
+      config: {}

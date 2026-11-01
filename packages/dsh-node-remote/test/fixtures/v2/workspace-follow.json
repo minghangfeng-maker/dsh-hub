@@ -1,0 +1,23 @@
+{
+  "note": "workspace/follow 的 baseline 与两次 archived 帧（归档 → 取消归档）。items 为空：本测试 profile 没登记 workspace。",
+  "frames": [
+    {
+      "type": "baseline",
+      "value": {
+        "items": [],
+        "archivedSessionIds": [],
+        "pinnedSessionIds": []
+      }
+    },
+    {
+      "type": "archived",
+      "archivedSessionIds": [
+        "session-9196ff61-8d0a-4ae4-a2a4-5cb4b812afcf"
+      ]
+    },
+    {
+      "type": "archived",
+      "archivedSessionIds": []
+    }
+  ]
+}
