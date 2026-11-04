@@ -17,6 +17,7 @@ DSH（跑在独立的 Docker 容器里），可以用浏览器直接打开，也
 **目录**：[一、产品](#一产品) · [二、技术](#二技术) · [三、在自己的机器上部署](#三在自己的机器上部署) ·
 [品牌与许可](#品牌与许可) · [参与](#参与)
 
+代码仓库：[GitHub](https://github.com/minghangfeng-maker/dsh-hub)（主仓库）· [Gitee](https://gitee.com/fengminghang/dsh-hub)（国内镜像，内容与 GitHub 同步）。
 相关仓库：桌面端 [dsh-hub-desktop](https://github.com/minghangfeng-maker/dsh-hub-desktop)（DeepSeek Harness 的 fork，MIT）。
 
 ---
@@ -246,6 +247,7 @@ pnpm -r typecheck && pnpm -r lint && pnpm -r --workspace-concurrency=1 test
 
 ```bash
 git clone https://github.com/minghangfeng-maker/dsh-hub.git && cd dsh-hub
+# 国内网络可改用 Gitee 镜像：git clone https://gitee.com/fengminghang/dsh-hub.git && cd dsh-hub
 corepack enable                          # 用仓库固定的 pnpm 10.33.2
 pnpm install && pnpm build
 pnpm --filter @dsh-hub/api exec node dist/cli.js create-admin --username admin   # 按提示设密码
@@ -271,6 +273,7 @@ HUB_CONTAINER_DRIVER=fake pnpm dev       # 浏览器打开 http://127.0.0.1:5171
 ```bash
 # 1. 代码与构建
 git clone https://github.com/minghangfeng-maker/dsh-hub.git ~/dsh-hub-prod && cd ~/dsh-hub-prod
+#    （国内网络可改用 https://gitee.com/fengminghang/dsh-hub.git）
 corepack enable && pnpm install && pnpm build
 deploy/prereq.sh                                   # 只读检查：Docker、Node、端口、目录、权限
 

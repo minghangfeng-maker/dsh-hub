@@ -9,7 +9,8 @@
 
 > `https://github.com/minghangfeng-maker/dsh-hub/security/advisories/new`
 
-<!-- 发布前把上面的 minghangfeng-maker/dsh-hub 换成真实仓库地址（本仓库地址尚未最终确定）。 -->
+Gitee 镜像（`https://gitee.com/fengminghang/dsh-hub`）没有私密漏洞报告功能，在 Gitee 上看到本项目的
+也请走上面这个 GitHub 入口，不要在 Gitee 开公开 issue。
 
 请写清：受影响的版本或提交、复现步骤、影响范围，以及你希望的披露时间。
 **我们会在 7 天内给出首次回复**；修复发布后通过 GitHub Security Advisory 公开，
