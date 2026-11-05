@@ -18,7 +18,7 @@ DSH（跑在独立的 Docker 容器里），可以用浏览器直接打开，也
 [品牌与许可](#品牌与许可) · [参与](#参与)
 
 代码仓库：[GitHub](https://github.com/minghangfeng-maker/dsh-hub)（主仓库）· [Gitee](https://gitee.com/fengminghang/dsh-hub)（国内镜像，内容与 GitHub 同步）。
-相关仓库：桌面端 [dsh-hub-desktop](https://github.com/minghangfeng-maker/dsh-hub-desktop)（DeepSeek Harness 的 fork，MIT）。
+相关仓库：桌面端 [dsh-hub-desktop](https://github.com/minghangfeng-maker/dsh-hub-desktop)（DeepSeek Harness 的 fork，MIT；国内镜像 [Gitee](https://gitee.com/fengminghang/dsh-hub-desktop)）。
 
 ---
 
@@ -337,6 +337,7 @@ DSH 界面。
   **fork 后请把安卓包名 `tech.dshhub.app` 改成你自己的。**
 - **桌面客户端**：在 [dsh-hub-desktop](https://github.com/minghangfeng-maker/dsh-hub-desktop) 里用
   `DSH_HUB_ORIGIN=https://hub.example.com` 构建安装包，再在管理台「DSH 版本」页切到「桌面」上传，用户就能从公开主页下载。
+  已安装的客户端也可以在账号页的「Hub 地址」一行改到别的 Hub，但自动更新仍来自构建时的地址，正式分发建议重新构建。
 
 ### 3.5 配置参考
 
