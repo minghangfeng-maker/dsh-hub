@@ -18,6 +18,17 @@ export const DEFAULT_UPLOAD_CHUNK_RAW = 144 * 1024
 
 export type UploadState = 'local' | 'uploading' | 'ready' | 'failed' | 'cancelled'
 
+/** 当前在飞的那一片（窗口 = 1，同时最多只有一条）。 */
+export interface UploadChunkInFlight {
+  seq: number
+  /** 这一片的 base64（重发要用；只留最新一片，不占整文件的第二份内存）。 */
+  data: string
+  final: boolean
+  requestId: string
+  /** 这一片已经重发了几次（看门狗 / `rate-limited` 退避各算一次）。 */
+  resends: number
+}
+
 export interface UploadInput {
   kind: 'image' | 'file'
   name: string
@@ -35,7 +46,7 @@ export interface UploadTask extends UploadInput {
   uploadId: string | null
   /** 已确认收到的字节数（按 upload-received 累加）。 */
   received: number
-  /** 下一个要发的 seq。 */
+  /** 下一个要发的 seq（重发同一片不动它）。 */
   nextSeq: number
   /** 服务端给的单片原始字节上限。 */
   maxChunkBytes: number
@@ -43,6 +54,10 @@ export interface UploadTask extends UploadInput {
   attempts: number
   /** 当前在等待确认的 requestId（诊断用）。 */
   requestId: string | null
+  /** 正在等回包的那一片（看门狗/退避重发用；收到回包后清空）。 */
+  inFlight: UploadChunkInFlight | null
+  /** 上一次真正发出分片的时间（节流用）。 */
+  lastSentAt: number
   expiresAt: number | null
 }
 
@@ -80,6 +95,8 @@ export function createUploadTask(
     error: null,
     attempts: 0,
     requestId: null,
+    inFlight: null,
+    lastSentAt: 0,
     expiresAt: null,
   }
 }

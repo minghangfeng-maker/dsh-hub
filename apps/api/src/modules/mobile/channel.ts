@@ -1,7 +1,9 @@
 import { randomUUID } from 'node:crypto'
 import {
+  MOBILE_BULK_FRAME_MIN_CHARS,
   MOBILE_HEARTBEAT_MS,
   MOBILE_MAX_UPLINK_FPS,
+  MOBILE_MAX_UPLOAD_FPS,
   MOBILE_PROTOCOL_VERSION,
   MOBILE_V2_FEATURE_OF_FRAME,
   MobileClientFrameAllSchema,
@@ -159,6 +161,9 @@ export class MobileChannel {
   private readonly timers: NodeJS.Timeout[] = []
   private lastUplinkAt = 0
   private uplinkWindow = 0
+  /** 大帧（附件分片）的独立配额窗口，与上面控制帧的互不影响。 */
+  private lastBulkAt = 0
+  private bulkWindow = 0
 
   constructor(
     connection: WsConnection,
@@ -274,8 +279,13 @@ export class MobileChannel {
 
   private enqueue(text: string): void {
     if (this.closed) return
-    if (!this.takeUplinkToken()) {
-      this.sendErr(undefined, 'rate-limited', '上行过快', true)
+    // 大帧（附件分片）走独立配额：按长度分流，热路径不做 JSON.parse。
+    const bulk = text.length >= MOBILE_BULK_FRAME_MIN_CHARS
+    if (!this.takeUplinkToken(bulk)) {
+      // 拒绝帧必须能**指名道姓**：客户端只有拿到 requestId 才能把这一片判失败/重发。
+      // 以前这里固定传 undefined，分片被拒后 App 的上传任务没有归属，气泡永远「发送中…」
+      // （2026-11-10 真机：15.9 MiB 的 HTML 传到片 17 就停住）。
+      this.sendErr(frameRequestIdOf(text), 'rate-limited', '上行过快', true)
       return
     }
     if (this.queue.length >= MAX_QUEUED_FRAMES) {
@@ -286,9 +296,22 @@ export class MobileChannel {
     void this.drain()
   }
 
-  /** 20 帧/秒的滑动窗口；不排队，超限直接拒。 */
-  private takeUplinkToken(): boolean {
+  /**
+   * 上行配额（固定 1 秒窗口，不排队，超限直接拒），分两档：
+   * - 控制帧 20 帧/秒（`MOBILE_MAX_UPLINK_FPS`），防一条手机把 Hub 打满；
+   * - 大帧（附件分片）60 帧/秒（`MOBILE_MAX_UPLOAD_FPS`）。窗口 = 1 的分片上传在
+   *   低延迟链路上天然超过 20 片/秒，共用配额会把正常上传误杀。
+   */
+  private takeUplinkToken(bulk: boolean): boolean {
     const now = Date.now()
+    if (bulk) {
+      if (now - this.lastBulkAt >= 1_000) {
+        this.lastBulkAt = now
+        this.bulkWindow = 0
+      }
+      this.bulkWindow += 1
+      return this.bulkWindow <= MOBILE_MAX_UPLOAD_FPS
+    }
     if (now - this.lastUplinkAt >= 1_000) {
       this.lastUplinkAt = now
       this.uplinkWindow = 0
@@ -563,4 +586,22 @@ async function withTimeout(promise: Promise<void>, ms: number): Promise<void> {
     }),
   ])
   if (timer !== undefined) clearTimeout(timer)
+}
+
+/**
+ * 从**还没校验**的帧文本里抠出 `requestId`（只在限速拒绝这条冷路径上用）。
+ *
+ * 限速发生在 schema 校验之前（校验一条 192 KiB 的分片 JSON 比数一个计数器贵得多），
+ * 所以拒绝时手里只有原始字符串。这里尽力而为：解析失败/没有 requestId 就返回
+ * undefined，仍然照旧回一条不带归属的错误帧。
+ */
+function frameRequestIdOf(text: string): string | undefined {
+  try {
+    const parsed: unknown = JSON.parse(text)
+    if (typeof parsed !== 'object' || parsed === null) return undefined
+    const requestId = (parsed as { requestId?: unknown }).requestId
+    return typeof requestId === 'string' && requestId.length > 0 ? requestId : undefined
+  } catch {
+    return undefined
+  }
 }

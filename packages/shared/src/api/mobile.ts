@@ -42,6 +42,22 @@ export const MOBILE_HEARTBEAT_MS = 25_000
 export const MOBILE_MAX_FRAME_BYTES = 262_144
 /** 上行速率上限（帧/秒，滑动窗口），防一条手机把 Hub 打满。 */
 export const MOBILE_MAX_UPLINK_FPS = 20
+/**
+ * 上行**大帧**（附件分片）单独一档配额（帧/秒）。
+ *
+ * 为什么不能和上面的控制帧共用 20 帧/秒：附件上传是「窗口 = 1」的分片协议
+ * （`upload-chunk` 一片 144 KiB，收到 `upload-received` 才发下一片），每片只花一个 RTT。
+ * 手机走 5G + 边缘入口时 RTT 常在 30~50 ms，天然就是 20~30 片/秒，正好压在 20 帧/秒上。
+ * 2026-11-10 真机事故：从手机发 15.9 MiB 的 HTML，片 17 就被 20 帧/秒拒掉；
+ * 拒绝帧又没带 requestId，App 的上传任务无法归位 → 气泡永远停在「发送中…」。
+ * 60 片/秒 ≈ 8.6 MiB/s，20 MiB 上限的文件 2.4 秒传完，不会成为新瓶颈。
+ */
+export const MOBILE_MAX_UPLOAD_FPS = 60
+/**
+ * 「大帧」判定阈值（字符数）：只有上传分片（144 KiB 原始 → base64 约 192 K 字符）
+ * 和超长正文的 `send` 会超过它。按长度分流是为了**不解析正文**就能选配额。
+ */
+export const MOBILE_BULK_FRAME_MIN_CHARS = 64 * 1024
 
 /** 移动通道的 HTTP 前缀（WS 升级也在同一前缀下）。 */
 export const MOBILE_API_PREFIX = '/api/mobile'

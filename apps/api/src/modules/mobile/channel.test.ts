@@ -59,7 +59,17 @@ function fakeRemote(onDispatch?: (frame: MobileClientFrame) => void): NodeRemote
       calls.push(frame)
       onDispatch?.(frame)
       if (frame.type === 'hello') {
-        await sink({ v: 1, type: 'hello', requestId: frame.requestId, node: this.node, capabilities: CAPS, subscribed: [], serverTime: 1 })
+        // 回显客户端声明的 v2 特性（真实 adapter 也会回显实际启用的集合）
+        await sink({
+          v: 1,
+          type: 'hello',
+          requestId: frame.requestId,
+          node: this.node,
+          capabilities: CAPS,
+          subscribed: [],
+          serverTime: 1,
+          features: frame.features ?? [],
+        })
       } else if (frame.type === 'send') {
         await sink({ v: 1, type: 'ack', requestId: frame.requestId, clientMessageId: frame.clientMessageId })
       } else if (frame.type === 'ping') {
@@ -340,5 +350,46 @@ describe('R4/R5/R7 边界', () => {
     }
     await tick()
     expect(ws.frames().some((frame) => frame.type === 'error' && frame.code === 'rate-limited')).toBe(true)
+  })
+
+  /**
+   * 2026-11-10 真机事故回归：窗口 = 1 的分片上传在低延迟链路上会自然发到 20~30 片/秒，
+   * 和这条通道的控制帧共用 20 帧/秒配额时，片 17 就被拒 → 附件永远停在「发送中…」。
+   * 分片（大帧）必须走独立配额。
+   */
+  it('附件分片（大帧）不受控制帧 20 帧/秒限制', async () => {
+    const ws = new FakeWs()
+    const remote = fakeRemote()
+    const channel = channelWith(ws, { kind: 'cloud', remote })
+    await channel.start()
+    ws.receive({ v: 1, type: 'hello', requestId: 'h1', client: { name: 'x', version: '1' }, features: ['attachments'] })
+    await tick()
+    // 144 KiB 原始 → base64 约 192 K 字符，与服务端 `CHUNK_BYTES` 一致
+    const data = 'A'.repeat(Math.ceil((144 * 1024) / 3) * 4)
+    for (let seq = 0; seq < 40; seq += 1) {
+      ws.receive({ v: 1, type: 'upload-chunk', requestId: `c${String(seq)}`, uploadId: 'up_1', seq, data, final: seq === 39 })
+    }
+    await tick()
+    expect(ws.frames().some((frame) => frame.type === 'error' && frame.code === 'rate-limited')).toBe(false)
+    expect(remote.calls.filter((frame) => frame.type === 'upload-chunk')).toHaveLength(40)
+  })
+
+  it('分片超过 60 帧/秒才拒，且拒绝帧带 requestId（客户端能把这一片判失败）', async () => {
+    const ws = new FakeWs()
+    const channel = channelWith(ws, { kind: 'cloud', remote: fakeRemote() })
+    await channel.start()
+    ws.receive({ v: 1, type: 'hello', requestId: 'h1', client: { name: 'x', version: '1' }, features: ['attachments'] })
+    await tick()
+    const data = 'A'.repeat(Math.ceil((144 * 1024) / 3) * 4)
+    for (let seq = 0; seq < 70; seq += 1) {
+      ws.receive({ v: 1, type: 'upload-chunk', requestId: `c${String(seq)}`, uploadId: 'up_1', seq, data, final: false })
+    }
+    await tick()
+    const rateLimited = ws.frames().filter((frame) => frame.type === 'error' && frame.code === 'rate-limited')
+    expect(rateLimited.length).toBeGreaterThanOrEqual(10)
+    // 每条拒绝都要点名到具体分片：App 的 upload-service 按 requestId 归位
+    const requestIds = rateLimited.map((frame) => (frame.type === 'error' ? frame.requestId : undefined))
+    expect(requestIds.every((id) => typeof id === 'string')).toBe(true)
+    expect(requestIds[0]).toBe('c60')
   })
 })

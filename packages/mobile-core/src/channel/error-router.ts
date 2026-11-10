@@ -60,7 +60,7 @@ export function routeErrorFrame(deps: ErrorRouterDeps, frame: FrameOf<'error'>):
         return
       }
       if (record.kind === 'upload-begin' || record.kind === 'upload-chunk') {
-        deps.uploads.failRequest(requestId, text)
+        deps.uploads.failRequest(requestId, code, text)
         return
       }
       // 用量请求的错误只在面板里显示（不污染全局错误条）。
@@ -117,8 +117,18 @@ export function routeErrorFrame(deps: ErrorRouterDeps, frame: FrameOf<'error'>):
     // 会推一条没有 requestId 的 adapter-unavailable。以前直接弹红条，用户只看到
     // 「后端暂时不可用」而会话其实是空的；现在静默退避恢复（重订阅会把 mux 带起来），
     // 连续多次都失败才把错误交给 UI。
+    //
+    // 上传分片也可能收到没有 requestId 的通道级错误（老 Hub 的「上行过快」就是：
+    // 限速发生在解析之前，拒绝帧带不上归属）。窗口 = 1 时最多只有一片在飞，
+    // 让 uploads 退避重发它，绝不能把上传任务晾在「上传中」。
+    const resumeUpload = frame.retryable === true ? deps.uploads.onChannelPressure() : false
     if (frame.retryable && deps.stream.recoverChannel()) {
       if (deps.state().error !== null) deps.patch({ error: null })
+      deps.patch({ pendingSendCount: deps.sends.count, sessionsLoading: false })
+      return
+    }
+    if (resumeUpload) {
+      // 通道恢复重试已用尽，但上传还有救（退避重发在飞片）：别弹错误条
       deps.patch({ pendingSendCount: deps.sends.count, sessionsLoading: false })
       return
     }
